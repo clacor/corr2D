@@ -20,11 +20,11 @@ data(FuranMale, package = "corr2D")
 As the next step we calculate the homo 2D correlation spectra of the FuranMale dataset using the function corr2d() and the first spectrum of the dataset as reference spectrum.
 
 ``` r
-twod <- corr2d(FuranMale, Ref1 = FuranMale[1, ])
-#> HOMO-Correlation: 2 cores used for calculation
-#> 09:21:04 - Fast Fourier Transformation and Multiplication 
+twod <- corr2d(FuranMale, Ref1 = FuranMale[1, ], corenumber = 1)
+#> HOMO-Correlation: 1 cores used for calculation
+#> 16:57:41 - Fast Fourier Transformation and Multiplication 
 #>  to obtain a 145 x 145 Correlation-Matrix 
-#> 09:21:04 - Done
+#> 16:57:41 - Done
 ```
 
 The last step is to plot the resulting 2D correlation spectra. As an example we plot the synchronous correlation spectrum of the FuranMale dataset. The appearance of the 2D plot can be altered by i.e. using the xlab and ylab options to control the labels at the x- and y-axes.

@@ -42,7 +42,7 @@ As the next step we calculate the homo 2D correlation spectra of the FuranMale d
 using the function corr2d() and the first spectrum of the dataset as reference
 spectrum.
 ```{r}
-twod <- corr2d(FuranMale, Ref1 = FuranMale[1, ])
+twod <- corr2d(FuranMale, Ref1 = FuranMale[1, ], corenumber = 1)
 ```
 
 The last step is to plot the resulting 2D correlation spectra. As an example we
