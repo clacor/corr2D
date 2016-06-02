@@ -1,0 +1,317 @@
+#' Plot two-dimensional correlation spectra.
+#'
+#' \code{plot_corr2d} plots two-dimensional correlation spectra either
+#'     as an image or a contour plot. Red colour indicates positive
+#'     correlations, while blue colour shows negative ones.
+#'
+#' For the synchronous correlation spectrum the real component (\code{Re})
+#'     of the complex correlation matrix must be plotted. The asynchronous
+#'     spectrum is the respective imaginary component (\code{Im}).
+#'     \code{Cutout} can be used to leave out smaller (noise) contributions,
+#'     but should be used with care as it can be used to create misleading
+#'     2D correlation plots. See references for interpretation rules (so
+#'     called Noda rules).
+#' 
+#' @param Obj List from \code{corr2d} containing the
+#'     2D correlation data.
+#' @param what Real numeric matrix containg the z-values that should be plotted.
+#' @param specx,specy Numeric vector containing the data that should be plotted
+#'     on top (\code{specx}) and/or on the left (\code{specy}) of
+#'     the 2D spectrum. \code{Mat}, \code{specx} and/or \code{specy} should
+#'     have the same dimensions, respectivly. If \code{NULL} nothing will
+#'     be plotted.
+#' @param xlim,ylim Numeric vector with two values indicating the borders
+#'     of the 2D plot. Also truncates \code{specx} and/or \code{specy} to
+#'     match the new plot range.
+#' @param xlab,ylab Charakter or expression containing the text that will
+#'     be plotted on the bottom (\code{xlab}) and/or to the left
+#'     (\code{ylab}) of the 2D plot. Labels can be suppressed with \code{NA}.
+#' @param Contour Logical scalar. Should a contour (\code{TRUE}) or image
+#'     (\code{FALSE}) be drawn?
+#' @param axes Integrer ranging from 0 to 3. Should the axis of the 2D plot
+#'     be drawn? "0" means no axes, "1" only bottom axis, "2" only left axis and
+#'     "3" both axes are drawn.
+#' @param Legend Logical scalar. Should a colour legend be plotted in the top
+#'     right corner?
+#' @param N Positive, non-zero integrer indicating how many contour or image
+#'     levels should be plotted.
+#' @param zlim Numeric vector with two values defining the z-range of the 2D
+#'     plot.
+#' @param Cutout Numeric vector with two values defining which z-values should
+#'     not be plotted. Use with care, because this can generate misleading
+#'     2D plots. 
+#' @param ... Additional arguments either passed to
+#'     \code{\link[graphics]{image}} or \code{\link[graphics]{contour}}
+#'
+#' @references I. Noda, \emph{J. Mol. Struct.}, 2006, \strong{799}, 41-47.
+#' 
+#' @seealso See \code{\link{plot_corr2din3d}} for 3D plots.
+#'
+#' @aliases plot_corr2d
+#' 
+#' @examples
+#'     data(FuranMale, package = "corr2D")
+#'     twod <- corr2d(FuranMale, Ref1 = FuranMale[1, ], corenumber = 1)
+#'     
+#'     plot_corr2d(twod, xlab = expression(paste("relative Wavenumber" / cm^-1)),
+#'                       ylab = expression(paste("relative Wavenumber" / cm^-1)))
+#'
+#' @export
+#' @importFrom grDevices rgb
+#' @importFrom graphics abline axis box close.screen mtext par plot.default screen split.screen
+#' @importFrom stats quantile
+plot_corr2d <-
+    function(Obj, what = Re(Obj$FT), specx = Obj$Ref1, specy = Obj$Ref2,
+             xlim = NULL, ylim = NULL,
+             xlab = expression(nu[1]), ylab = expression(nu[2]),
+             Contour = TRUE, axes = 3, Legend = TRUE, N = 20,
+             zlim = NULL, Cutout = NULL, ...)
+    {
+        par_old <- par(no.readonly = TRUE)
+        # avoid "invalid screen(1)" error in RStudio --------------------------
+        close.screen(all.screens = T)
+        graphics::plot.new()
+        
+        # calculate x- and y-window range -------------------------------------
+        if (is.null(xlim)) {
+            Which1 <- 1:NROW(what)
+        } else {
+            Which1 <- which(xlim[1] < Obj$Wave1 & Obj$Wave1 < xlim[2])
+        }
+        
+        if (is.null(ylim)) {
+            Which2 <- 1:NCOL(what)
+        } else {
+            Which2 <- which(ylim[1] < Obj$Wave2 & Obj$Wave2 < ylim[2])
+        }
+        
+        # create splitscreen for plotting -------------------------------------
+        OFF <- 0.05
+        split.screen(rbind(c(0, 0.15 + OFF, 0.15 + OFF, 0.85 - OFF),          # Spectrum left
+                           c(0.15 + OFF, 0.85 - OFF, 0.85 - OFF, 1),          # Spectrum top
+                           c(0.15 + OFF, 0.85 - OFF, 0.15 + OFF, 0.85 - OFF), # Main
+                           c(0.85 - OFF, 1, 0.15 + OFF, 0.85 - OFF),          # right
+                           c(0.15 + OFF, 0.85 - OFF, 0, 0.15 + OFF),          # bottom
+                           c(0, 0.15 + OFF, 0.85 - OFF, 1),                   # top left
+                           c(0.85 - OFF, 1, 0.85 - OFF, 1)                    # Legend top right
+        )
+        )
+        
+        # plot one dimensional spectra top and left ---------------------------
+        if (!is.null(specy)) {
+            # Spec left ------------------------------------------------------
+            screen(1)
+            par(xaxt = "n", yaxt="n", mar=c(0, 0, 0, 0), bty="n", yaxs="i")
+            plot.default(x = max(specy[Which2]) - specy[Which2],
+                         y = 1:length(specy[Which2]),
+                         type = "l", lwd = par()$lwd + 1, ann = F)
+        }
+        
+        if (!is.null(specx)) {
+            # Spec top -------------------------------------------------------
+            screen(2)
+            par(xaxt = "n", yaxt = "n", mar = c(0, 0, 0, 0), bty = "n", xaxs = "i")
+            plot.default(1:length(specx[Which1]), specx[Which1],
+                         type = "l", lwd = par()$lwd + 1, ann = F)
+        }
+        
+        # main Part -----------------------------------------------------------
+        screen(3)
+        if (is.null(zlim)) {
+            zlim <- range(what[Which1, Which2])
+        }
+        # Number of levels is always odd --------------------------------------
+        if (N%%2 == 0){
+            N <- N + 1
+        }
+        # Symmetric distribution of color code --------------------------------
+        Where <- seq(-max(abs(zlim)), max(abs(zlim)), length.out = N) 
+        
+        if (is.null(Cutout)) {
+            OM <- which(Where < 0)
+            OP <- which(Where > 0)
+        } else {
+            OM <- which(Where <= Cutout[1])
+            OP <- which(Where >= Cutout[2])
+        }
+        
+        COL <- rep("transparent", length(Where))
+        COL[OM] <- fields::designer.colors(col = c("darkblue", "cyan"), n = length(OM))
+        COL[OP] <- fields::designer.colors(col = c("yellow", "red", "darkred"), n = length(OP))
+        COL[(N + 1)/2] <- "transparent"
+        COL <- COL[which(zlim[1] < Where & Where < zlim[2])]
+        Where <- seq(zlim[1], zlim[2], length.out = length(COL))
+        
+        par(xaxt = "n", yaxt = "n", mar = c(0, 0, 0, 0), bty = "n", xaxs = "i", yaxs = "i")
+        if (Contour == TRUE){
+            graphics::contour(x = Obj$Wave1[Which1], y = Obj$Wave2[Which2], z = what[Which1, Which2],
+                              col = COL, levels = Where, zlim = zlim, drawlabels = F, ...)
+        } else {
+            graphics::image(x = Obj$Wave1[Which1], y = Obj$Wave2[Which2], z = what[Which1, Which2],
+                                col = COL, xlab = "", ylab = "", zlim = zlim, ...)
+        }
+
+        abline(a = 0, b = 1, col = rgb(red = 1, green = 1, blue = 1, alpha = 0.5), lwd = par()$lwd * 2)
+        par(xpd = NA, xaxt = "s", yaxt = "s", xaxs = "i", yaxs = "i", cex = 1, mar=c(0, 0, 0, 0))
+        box(which = "figure", lwd = 1)
+        if ((axes == 1) | (axes == 3)){
+            axis(side = 1, lwd = 1)
+        }
+        if ((axes == 2) | (axes == 3)){
+            axis(side = 4, las = 2, lwd = 1)
+        }
+
+        mtext(side = 1, xlab, line = 3.5, cex = par()$cex ++ 0.3)
+        mtext(side = 4, ylab, line = 3.5, cex = par()$cex ++ 0.3)
+
+        if(Legend == TRUE){
+            # top right -------------------------------------------------------
+            screen(7)
+            # avoid par(par.old) error from image.plot() by setting par(pin) value positive
+            par(pin = abs(par()$pin))
+            if (Contour == TRUE){
+                fields::image.plot(z = what[Which1,Which2], legend.only = T,
+                                   smallplot = c(0.15, 0.3, 0.2, 0.8), col = COL,
+                                   axis.args = list(at = quantile(Where, prob = c(0.1, 0.9)),
+                                   labels = format(x = quantile(Where, prob = c(0.1, 0.9)), digit = 2)),
+                                   zlim = zlim, legend.lab = "", cex = 0.7)
+            } else {
+                fields::image.plot(z = what[Which1, Which2],legend.only = T,
+                                   smallplot = c(0.15, 0.3, 0.2, 0.8),
+                                   col = COL, axis.args = list(at = range(what[Which1, Which2]),
+                                   labels = format(x = range(what[Which1, Which2]), digits = 2)),
+                                   legend.lab = "", cex = 0.7)
+            }
+            
+        }
+        
+        screen(3, new = F)
+        close.screen(c(1,2,4,5,6,7))
+        on.exit(options(par_old), add = TRUE)
+    }
+
+#' 3D plot of two-dimensional correlation spectra.
+#'
+#' \code{plot_corr2din3d} plots two-dimensional correlation spectra as an 3D surface.
+#'
+#' For the synchronous correlation spectrum the real component (\code{Re})
+#'     of the complex correlation matrix must be plotted. The asynchronous
+#'     spectrum is the respective imaginary component (\code{Im}).
+#' 
+#' @param Mat Real numeric matrix containing the z-values to plot.
+#' @param specx,specy Numeric vector containg the data, that will be
+#'     plotted at the x and y axis. Can be any data and does not need to have
+#'     the same dimensions as \code{Mat}.
+#' @param scalex,scaley A real number which describes how \code{specx}
+#'     (or \code{specy}) get scaled. Positive numbers lead to a spectrum
+#'     plotted inside the box, while negative numbers lead to a spectrum
+#'     plotted outside the box.
+#' @param Col Vector containg colours used to plot the 3D plot and the
+#'     respective projection. 
+#' @param reduce Non-zero rational number describing how to
+#'     \code{\link[mmand]{resample}} the data values. Can reduce the 
+#'     computational demand and can be used for fast previews.
+#' @param zlim Numeric vector with two values indicating the z-range of
+#'     the 3D plot.
+#' @param projection Logical scalar. Should a 2D projection of the 3D surface
+#'     be plotted a the bottom of the box?
+#' @param ... Additional arguments passed to \code{\link[fields]{drape.plot}}
+#' 
+#' @seealso See \code{\link{plot_corr2d}} for 2D plots.
+#'     See \code{\link[fields]{drape.plot}} for information on the plot function.
+#' 
+#' @aliases plot_corr2din3d
+#' 
+#' @examples
+#'    data(FuranMale, package = "corr2D")
+#'    twod <- corr2d(FuranMale, Ref1 = FuranMale[1, ], corenumber = 1)
+#'    
+#'    plot_corr2din3d(Mat = Re(twod$FT), specx = twod$Ref1,
+#'        specy = twod$Ref1, reduce = 2, scalex = -175, scaley = -175,
+#'        zlim = c(-0.75, 1.25)*10^-4, projection = FALSE,
+#'        border = NA, theta = 25, phi = 15, add.legend = FALSE)
+#'    
+#' @export
+#' @importFrom graphics par polygon lines
+#' @importFrom stats median
+plot_corr2din3d <-
+    function(Mat, specx = NULL, specy = NULL,
+             scalex = NULL, scaley = NULL, Col = NULL, reduce = NULL,
+             zlim = NULL, projection = FALSE, ...)
+    {
+        par_old <- par(no.readonly = TRUE)
+        x <- 1:NROW(Mat)
+        y <- 1:NCOL(Mat)
+
+        if (!is.null(reduce)) {
+            Which.x <- (1:length(x))[which(1:length(x)%%reduce == 0)]
+            Which.y <- (1:length(y))[which(1:length(y)%%reduce == 0)]
+            Mat <- mmand::resample(x = Mat, points = list(x = x[Which.x],
+                                   y = y[Which.y]), kernel = mmand::boxKernel())
+            x <- x[Which.x]
+            y <- y[Which.y]
+        }
+        if (is.null(Col)){
+            Zero <- median(Mat)
+            Max <- max(Mat)
+            Min <- min(Mat)
+            Breaks <- c(seq(from = Min, to = Zero, length.out = 33),
+                        seq(from = Zero, to = Max, length.out = 33)[2:33])
+            Col <- fields::tim.colors(64)
+        }else{
+            Breaks <- NULL
+        }
+        if (is.null(zlim)){
+            zlim <- range(Mat, na.rm = T)
+        }
+        
+        if (projection == TRUE){
+            WW <- fields::drape.plot(x = x, y = y, z = Mat, col = Col, breaks = Breaks, zlim = zlim, ...)
+            COL <- fields::drape.color(z = Mat, col = Col, zlim = zlim, breaks = Breaks)$color.index
+            for (i in 2:NROW(Mat)) {
+                for (j in 2:NCOL(Mat)) {
+                    Points <- grDevices::trans3d(y = y[c(j - 1, j, j, j - 1, j - 1)],
+                                                 x = x[c(i - 1, i - 1, i, i, i - 1)],
+                                                 z = rep(zlim[1], length(5)), pmat = WW)
+                    polygon(Points$x, Points$y,
+                            border = NA, col = COL[i - 1, j - 1])
+                }
+            }
+            par(new=T)
+            fields::drape.plot(x = x, y = y, z = Mat, col = Col, breaks = Breaks, zlim = zlim, ...)
+        } else {
+            WW <- fields::drape.plot(x = x, y = y, z = Mat, col = Col, breaks = Breaks, zlim = zlim, ...)
+        }
+        
+        
+        
+        if (!is.null(specx)) {
+            if (is.null(scalex)) {
+                scalex <- 1
+            }
+            X<-seq(min(x), max(x), length.out = length(specx))
+            Points.x <- grDevices::trans3d(x = X, y = min(y) + scalex * specx,
+                                           z = rep(zlim[1], length(X)), pmat = WW)
+            lines(x = Points.x$x, Points.x$y, lwd = 2)
+        }
+        
+        if (!is.null(specy)) {
+            if (is.null(scaley)) {
+                scaley <- 1
+            }
+            Y<-seq(min(y), max(y), length.out = length(specy))
+            Points.y <- grDevices::trans3d(y = Y, x = max(x) - scaley * specy,
+                                           z = rep(zlim[1], length(Y)), pmat = WW)
+            lines(x = Points.y$x, Points.y$y, lwd = 2)
+        }
+        
+        on.exit(options(par_old), add = TRUE)
+    }
+
+#' @export
+#' 
+#' @seealso See \code{\link{plot_corr2d}}
+plot.corr2d <- function(x, ...)
+{
+    plot_corr2d(x, ...)
+}

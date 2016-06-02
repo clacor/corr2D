@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "## Test environments\n* local Windows 7 SP1 install, R 3.3.0\n* win-builder (devel and release)\n* local \n\n## R CMD check results\nThere were no ERRORs or WARNINGs.\n\nThere was 1 Note:\n\"New Submission\"\n\n## Downstream dependencies\nThere are currently no downstream dependencies for this package, because it's\n    a new submission to CRAN.",
+    "created" : 1464689344893.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2030054452",
+    "id" : "864D11E",
+    "lastKnownWriteTime" : 1464852318,
+    "last_content_update" : 1464852318968,
+    "path" : "C:/Users/ro63zic/Desktop/corr2d/cran-comments.md",
+    "project_path" : "cran-comments.md",
+    "properties" : {
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "markdown"
+}

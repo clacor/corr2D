@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "setwd(\"C:/Users/ro63zic/Desktop/corr2d\")\n\nroxygen2::roxygenize()\n\nlibrary(devtools)\nlibrary(rmarkdown)\n\nset_path('C:/Rtools/bin')\nbuild(binary=T)\n\nplot_corr2din3d(Mat = Re(twod$FT), spectra.x = twod$Ref1,\n                spectra.y = twod$Ref1, reduce = 2, scale.x = -175, scale.y = -175,\n                zlim = c(-0.75, 1.25)*10^-4, projection = FALSE,\n                border = NA, theta = 25, phi = 15, add.legend = FALSE)\n\ndata(FuranMale)\ntwod<-corr2d(FuranMale,Ref1=FuranMale[1,])\n\nplot_corr2d(twod)\nplot_corr2din3d(Re(twod$FT),projection=T,reduce=3)\n\nis.corr2d(twod)\n\nrevdep_check()\n\n\nlibrary(RSkittleBrewer)\nvignette(package=\"roxygen2\")\nvignette(\"rd\", \"roxygen2\")\n\n# Build pdf manual\npack <- \"corr2D\"\npath <- find.package(pack)\nsystem(paste(shQuote(file.path(R.home(\"bin\"), \"R\")),\n             \"CMD\", \"Rd2pdf\", shQuote(path)))\n\n\nuse_readme_rmd()\nuse_build_ignore(\"README.md\")\n\nuse_vignette(\"corr2D-vignette\")\n",
+    "created" : 1460099510502.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "3344918029",
+    "id" : "982A065D",
+    "lastKnownWriteTime" : 7012142141625344627,
+    "last_content_update" : 1464771673248,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

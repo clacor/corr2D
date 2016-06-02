@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"Implementation of 2D Correlation Analysis\"\nauthor: \"Robert Geitner, Robby Fritzsch and Thomas Bocklitz\"\ndate: \"`r Sys.Date()`\"\noutput: rmarkdown::html_vignette\nfig_caption: yes\nnumber_sections: true\nvignette: >\n  %\\VignetteIndexEntry{Implementation of 2D Correlation Analysis}\n  %\\VignetteEngine{knitr::rmarkdown}\n  %\\VignetteEncoding{UTF-8}\n---\n\n```{r, echo = FALSE}\nknitr::opts_chunk$set(\n  collapse = TRUE,\n  comment = \"#>\",\n  fig.path = \"README-\"\n)\n```\n\n# Purpose of corr2D\n    \nThe package corr2D implements two-dimensional (2D) correlation analysis in R.\nIt allows the user to calculate and plot homo as well as hetero 2D correlation\nspectra from an input matrix containing the (preprocessed) spectra. The user\ncan freely choose the reference spectrum used to create the dynamic spectra,\nhow the perturbation vector should be handled, if and how the resulting 2D\nspectra should be scaled and how many cores should be used to calculate the\ncorrelation matrix.  \nThe plot functions offer a wide varity of options to customize the look\nof 2D spectra. In this context the appearance of the main spectrum can be\naltered and the 1D reference spectra as well as the colour legend can be\ncontrolled.  \nThe package also features an example dataset containing preprocessed FT-Raman\nspectra of a self-healing polymer sample.\n\n# How to use corr2D on a simple example\n\nFirst we need to make the package avilable and get an example dataset. For\nillustration purposes we use the FuranMale dataset from the present corr2D\npackage.\n```{r}\nlibrary(\"corr2D\")\ndata(FuranMale, package = \"corr2D\")\n```\n\nAs the next step we calculate the homo 2D correlation spectra of the FuranMale\ndataset using the function corr2d() and the first spectrum of the dataset as\nreference spectrum.\n```{r}\ntwod <- corr2d(FuranMale, Ref1 = FuranMale[1, ])\n```\n\nThe last step is to plot the resulting 2D correlation spectra. As an example we\nplot the synchronous correlation spectrum of the FuranMale dataset. The\nappearance of the 2D plot can be altered by i.e. using the xlab and ylab\noptions to control the labels at the x- and y-axes.\n```{r, eval=FALSE, fig.show='hold', fig.cap = \"Your figure caption.\"}\nplot_corr2d(twod, xlab = expression(paste(\"relative Wavenumber\" / cm^-1)),\n            ylab = expression(paste(\"relative Wavenumber\" / cm^-1)))\n```          \n",
+    "created" : 1464769831368.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1139804191",
+    "id" : "9D6CDFA3",
+    "lastKnownWriteTime" : 1464852032,
+    "last_content_update" : 1464852032154,
+    "path" : "C:/Users/ro63zic/Desktop/corr2d/vignettes/corr2D.Rmd",
+    "project_path" : "vignettes/corr2D.Rmd",
+    "properties" : {
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

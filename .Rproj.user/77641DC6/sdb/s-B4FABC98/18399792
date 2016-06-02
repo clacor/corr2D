@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "plot_test <-\n    function(OFF)\n    {\n        par_old <- par(no.readonly = TRUE)\n        close.screen(all.screens = T)\n        plot.new()\n        \n        # create splitscreen for plotting -------------------------------------\n        OFF <- 0.05\n        numb<-split.screen(rbind(c(0, 0.15 + OFF, 0.15 + OFF, 0.85 - OFF),          # Spektrum Links\n                           c(0.15 + OFF, 0.85 - OFF, 0.85 - OFF, 1),          # Spektrum Oben\n                           c(0.15 + OFF, 0.85 - OFF, 0.15 + OFF, 0.85 - OFF), # Main\n                           c(0.85 - OFF, 1, 0.15 + OFF, 0.85 - OFF),          # Spektrum/Legende rechts\n                           c(0.15 + OFF, 0.85 - OFF, 0, 0.15 + OFF),          # unten\n                           c(0, 0.15 + OFF, 0.85 - OFF, 1),                   # oben links\n                           c(0.85 - OFF, 1, 0.85 - OFF, 1)                    # oben rechts\n        )\n        )\n        cat(numb)\n        # plot one dimensional spectra top and left ---------------------------\n            # Spec Links ------------------------------------------------------\n            screen(1)\n        \n    }",
+    "created" : 1460359499463.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "1753465064",
+    "id" : "18399792",
+    "lastKnownWriteTime" : 2820135313473544819,
+    "last_content_update" : 1460367371067,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 10,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
