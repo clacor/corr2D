@@ -7,3 +7,5 @@
 ^NEWS\.html$
 ^cran-comments\.html$
 ^cran-comments\.md$
+^\.travis\.yml$
+
