@@ -174,13 +174,13 @@ plot_corr2d <-
                                    smallplot = c(0.15, 0.3, 0.2, 0.8), col = COL,
                                    axis.args = list(at = quantile(Where, prob = c(0.1, 0.9)),
                                    labels = format(x = quantile(Where, prob = c(0.1, 0.9)), digit = 2)),
-                                   zlim = zlim, legend.lab = "", cex = 0.7)
+                                   zlim = zlim, legend.lab = "", cex = 0.7, graphics.reset = TRUE)
             } else {
                 fields::image.plot(z = what[Which1, Which2],legend.only = T,
                                    smallplot = c(0.15, 0.3, 0.2, 0.8),
                                    col = COL, axis.args = list(at = range(what[Which1, Which2]),
                                    labels = format(x = range(what[Which1, Which2]), digits = 2)),
-                                   legend.lab = "", cex = 0.7)
+                                   legend.lab = "", cex = 0.7, graphics.reset = TRUE)
             }
             
         }
