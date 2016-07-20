@@ -1,12 +1,31 @@
-language: r
-sudo: false
-cache: packages
- 
-r:
- - oldrel
- - release
- - devel
+# Sample .travis.yml for R projects from https://github.com/craigcitro/r-travis
 
-addons:
-  apt:
-    packages:
+language: c
+sudo: required
+
+before_install:
+  - curl -OL https://raw.githubusercontent.com/metacran/r-builder/master/pkg-build.sh
+  - chmod 755 pkg-build.sh
+  - ./pkg-build.sh bootstrap
+
+install:
+  - ./pkg-build.sh install_deps
+
+script:
+  - ./pkg-build.sh run_tests
+
+after_failure:
+  - ./pkg-build.sh dump_logs
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+
+env:
+  matrix:
+    - RVERSION=oldrel
+    - RVERSION=release
+    - RVERSION=devel
+  global:
+- NOT_CRAN=1
