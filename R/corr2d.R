@@ -163,6 +163,7 @@ corr2d <-
         # Do fft for every wavenumber in both Mattices to obtain frequency ----
         # dependent vectors for every wavenumber and scalar-multiply them -----
         # for every point in the 2D-correlation spectrum ----------------------
+        i <- NULL # Dummy to trick R CMD check 
         FT <- NULL
         cat(c(format(Sys.time(), "%X -"), "Fast Fourier Transformation and Multiplication \n",
               "to obtain a", D1[2], "x", D2[2], "Correlation-Matrix", "\n"))
