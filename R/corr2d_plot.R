@@ -24,12 +24,12 @@
 #'     of the 2D plot. Also truncates \code{specx} and/or \code{specy} to
 #'     match the new plot range.
 #' @param xlab,ylab Charakter or expression containing the text that will
-#'     be plotted on the bottom (\code{xlab}) and/or to the left
+#'     be plotted on the bottom (\code{xlab}) and/or to the right
 #'     (\code{ylab}) of the 2D plot. Labels can be suppressed with \code{NA}.
 #' @param Contour Logical scalar. Should a contour (\code{TRUE}) or image
 #'     (\code{FALSE}) be drawn?
 #' @param axes Integrer ranging from 0 to 3. Should the axis of the 2D plot
-#'     be drawn? "0" means no axes, "1" only bottom axis, "2" only left axis and
+#'     be drawn? "0" means no axes, "1" only bottom axis, "2" only right axis and
 #'     "3" both axes are drawn.
 #' @param Legend Logical scalar. Should a colour legend be plotted in the top
 #'     right corner?
@@ -101,9 +101,9 @@ plot_corr2d <-
         if (!is.null(specy)) {
             # Spec left ------------------------------------------------------
             screen(1)
-            par(xaxt = "n", yaxt="n", mar=c(0, 0, 0, 0), bty="n", yaxs="i")
+            par(xaxt = "n", yaxt = "n", mar = c(0, 0, 0, 0), bty = "n", yaxs = "i")
             plot.default(x = max(specy[Which2]) - specy[Which2],
-                         y = 1:length(specy[Which2]),
+                         y = Obj$Wave2[Which2],
                          type = "l", lwd = par()$lwd + 1, ann = F)
         }
         
@@ -111,7 +111,7 @@ plot_corr2d <-
             # Spec top -------------------------------------------------------
             screen(2)
             par(xaxt = "n", yaxt = "n", mar = c(0, 0, 0, 0), bty = "n", xaxs = "i")
-            plot.default(1:length(specx[Which1]), specx[Which1],
+            plot.default(Obj$Wave1[Which1], specx[Which1],
                          type = "l", lwd = par()$lwd + 1, ann = F)
         }
         

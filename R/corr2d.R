@@ -120,29 +120,22 @@ corr2d <-
             cat(c(format(Sys.time(), "%X -"), "Interpolate Time from",
                   min(Time), "to", max(Time), "\n", "to obtain", N,
                   "equidistant datapoints for FFT", "\n"))
-            MAT <- c()
             TIME <- seq(min(Time), max(Time), length.out = N)
-            for (i in 1:NCOL(Mat1)) {
-                tmp <- Int(x = Time, y = Mat1[, i])
-                MAT <- cbind(MAT, tmp(TIME))
-            }
-            Mat1 <- MAT
+
+            tmp <- apply(Mat1, 2, function(y) Int(x = Time, y = y))
+            Mat1 <- sapply(tmp, function(x) x(TIME))
+
             if (Het == FALSE) {
                 Mat2 <- Mat1
             } else {
-                MAT <- c()
-                for (i in 1:NCOL(Mat2)) {
-                    tmp <- Int(x = Time, y = Mat2[, i])
-                    MAT <- cbind(MAT, tmp(TIME))
-                }
-                Mat2 <- MAT
+                tmp <- apply(Mat2, 2, function(y) Int(x = Time, y = y))
+                Mat2 <- sapply(tmp, function(x) x(TIME))
             }
+            Time <- TIME
         }
         # Get perturbation variable from rownames
         if (is.null(Time) == TRUE && is.null(rownames(Mat1)) == FALSE) {
             Time <- as.numeric(rownames(Mat1))
-        } else {
-            Time <- NULL
         }
         
         # Substract reference -------------------------------------------------
@@ -151,7 +144,7 @@ corr2d <-
             Ref1 <- colMeans(Mat1)
             Ref2 <- colMeans(Mat2)
         }
-        Mat1<-sweep(Mat1, 2, Ref1, "-")
+        Mat1 <- sweep(Mat1, 2, Ref1, "-")
         if (Het == FALSE) {
             Mat2 <- Mat1
         } else {
@@ -172,21 +165,21 @@ corr2d <-
         # for every point in the 2D-correlation spectrum ----------------------
         FT <- NULL
         cat(c(format(Sys.time(), "%X -"), "Fast Fourier Transformation and Multiplication \n",
-              "to obtain a",D1[2], "x", D2[2], "Correlation-Matrix","\n"))
+              "to obtain a", D1[2], "x", D2[2], "Correlation-Matrix", "\n"))
         
         FT <- matrix(NA, NCOL(Mat1), NCOL(Mat2))
         ft1 <- foreach::foreach(i = 1:NCOL(Mat1), .combine = 'cbind') %dopar% {
-            fft(Mat1[, i])[1:NROW(Mat1) %/% 2]
+            fft(Mat1[, i])[1:(NROW(Mat1) - 1) %/% 2 + 1]
         }
         if (Het == FALSE) {
             ft2 <- ft1
         } else {
             ft2 <- foreach::foreach(i = 1:NCOL(Mat2), .combine = 'cbind') %dopar% {
-                fft(Mat2[, i])[1:NROW(Mat2) %/% 2]
+                fft(Mat2[, i])[1:(NROW(Mat2) - 1) %/% 2 + 1]
             }
         }
         
-        FT<-matrix(Norm * parallel::parCapply(cl, ft1, get("%*%"), Conj(ft2)), NCOL(ft1), NCOL(ft2), byrow = T)
+        FT <- matrix(Norm * parallel::parCapply(cl, ft1, get("%*%"), Conj(ft2)), NCOL(ft1), NCOL(ft2), byrow = T)
         cat(c(format(Sys.time(), "%X -"), "Done\n"))
         
         Obj<-list(FT = FT, Ref1 = Ref1, Ref2 = Ref2,

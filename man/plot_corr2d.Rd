@@ -26,14 +26,14 @@ of the 2D plot. Also truncates \code{specx} and/or \code{specy} to
 match the new plot range.}
 
 \item{xlab, ylab}{Charakter or expression containing the text that will
-be plotted on the bottom (\code{xlab}) and/or to the left
+be plotted on the bottom (\code{xlab}) and/or to the right
 (\code{ylab}) of the 2D plot. Labels can be suppressed with \code{NA}.}
 
 \item{Contour}{Logical scalar. Should a contour (\code{TRUE}) or image
 (\code{FALSE}) be drawn?}
 
 \item{axes}{Integrer ranging from 0 to 3. Should the axis of the 2D plot
-be drawn? "0" means no axes, "1" only bottom axis, "2" only left axis and
+be drawn? "0" means no axes, "1" only bottom axis, "2" only right axis and
 "3" both axes are drawn.}
 
 \item{Legend}{Logical scalar. Should a colour legend be plotted in the top
