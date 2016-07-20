@@ -3,8 +3,8 @@
 language: r
 sudo: false
 cache: packages
-env:
+r:
   matrix:
-    - RVERSION=oldrel
-    - RVERSION=release
-    - RVERSION=devel
+    - oldrel
+    - release
+    - devel
