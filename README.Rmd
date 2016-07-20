@@ -15,6 +15,10 @@ knitr::opts_chunk$set(
 
 # Purpose of corr2D
 
+[![CRAN version](http://www.r-pkg.org/badges/version/corr2D)](http://cran.r-project.org/package=corr2D)
+![cranlogs](http://cranlogs.r-pkg.org./badges/corr2D)
+[![Build Status](https://travis-ci.org/clacor/corr2D.svg?branch=master)](https://travis-ci.org/clacor/corr2D)
+
 The package corr2D implements two-dimensional (2D) correlation analysis in R.
 It allows the user to calculate and plot homo as well as hetero 2D correlation
 spectra from an input matrix containing the (preprocessed) spectra. The user
