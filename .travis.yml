@@ -2,13 +2,12 @@
 
 os:
 - linux
-- osx
 
-language: r
+language: R
+cache: packages
+sudo: false
+
 r:
 - release
 - oldrelease
 - devel
-
-sudo: false
-cache: packages
