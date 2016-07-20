@@ -8,8 +8,3 @@ r:
     - oldrel
     - release
     - devel
-env:
-  matrix:
-    - RVERSION=oldrel
-    - RVERSION=release
-    - RVERSION=devel
