@@ -4,11 +4,11 @@ os:
 - linux
 - osx
 
-R:
+language: r
+r:
 - release
 - oldrelease
 - devel
 
-language: R
 sudo: false
 cache: packages
