@@ -4,7 +4,16 @@
 * ubuntu 12.04 (on travis-ci), R 3.2.5, R 3.3.1 and devel
 
 ## R CMD check results
-There were no ERRORs, WARNINGs or NOTEs.
+There were no ERRORs or WARNINGs.
+
+There was 1 NOTE on win-builder:
+* checking CRAN incoming feasibility ... NOTE
+
+Possibly mis-spelled words in DESCRIPTION:
+  Isao (12:57)
+  Noda (12:62, 12:71)
+  
+  The name is correct. The inventor of the method is called 'Isao Noda'.
 
 ## Downstream dependencies
-There are currently no downstream dependencies for this package.
+There are currently no downstream dependencies for corr2D.
