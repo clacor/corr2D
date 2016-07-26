@@ -13,33 +13,33 @@ plot_corr2d(Obj, what = Re(Obj$FT), specx = Obj$Ref1, specy = Obj$Ref2,
 \item{Obj}{List from \code{corr2d} containing the
 2D correlation data.}
 
-\item{what}{Real numeric matrix containg the z-values that should be plotted.}
+\item{what}{Real numeric matrix containing the z-values that should be plotted.}
 
 \item{specx, specy}{Numeric vector containing the data that should be plotted
 on top (\code{specx}) and/or on the left (\code{specy}) of
 the 2D spectrum. \code{Mat}, \code{specx} and/or \code{specy} should
-have the same dimensions, respectivly. If \code{NULL} nothing will
+have the same dimensions, respectively. If \code{NULL} nothing will
 be plotted.}
 
 \item{xlim, ylim}{Numeric vector with two values indicating the borders
 of the 2D plot. Also truncates \code{specx} and/or \code{specy} to
 match the new plot range.}
 
-\item{xlab, ylab}{Charakter or expression containing the text that will
+\item{xlab, ylab}{Character or expression containing the text that will
 be plotted on the bottom (\code{xlab}) and/or to the right
 (\code{ylab}) of the 2D plot. Labels can be suppressed with \code{NA}.}
 
-\item{Contour}{Logical scalar. Should a contour (\code{TRUE}) or image
+\item{Contour}{Logical: Should a contour (\code{TRUE}) or image
 (\code{FALSE}) be drawn?}
 
-\item{axes}{Integrer ranging from 0 to 3. Should the axis of the 2D plot
+\item{axes}{Integer ranging from 0 to 3. Should the axis of the 2D plot
 be drawn? "0" means no axes, "1" only bottom axis, "2" only right axis and
 "3" both axes are drawn.}
 
-\item{Legend}{Logical scalar. Should a colour legend be plotted in the top
+\item{Legend}{Logical: Should a color legend be plotted in the top
 right corner?}
 
-\item{N}{Positive, non-zero integrer indicating how many contour or image
+\item{N}{Positive, non-zero integer indicating how many contour or image
 levels should be plotted.}
 
 \item{zlim}{Numeric vector with two values defining the z-range of the 2D
@@ -54,8 +54,8 @@ not be plotted. Use with care, because this can generate misleading
 }
 \description{
 \code{plot_corr2d} plots two-dimensional correlation spectra either
-    as an image or a contour plot. Red colour indicates positive
-    correlations, while blue colour shows negative ones.
+    as an image or a contour plot. Red color indicates positive
+    correlations, while blue color shows negative ones.
 }
 \details{
 For the synchronous correlation spectrum the real component (\code{Re})
@@ -75,7 +75,8 @@ For the synchronous correlation spectrum the real component (\code{Re})
 
 }
 \references{
-I. Noda, \emph{J. Mol. Struct.}, 2006, \strong{799}, 41-47.
+For interpretation rules see:
+    I. Noda (2006) <DOI:10.1016/j.molstruc.2005.12.060>
 }
 \seealso{
 See \code{\link{plot_corr2din3d}} for 3D plots.

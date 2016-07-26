@@ -1,8 +1,8 @@
 #' Plot two-dimensional correlation spectra.
 #'
 #' \code{plot_corr2d} plots two-dimensional correlation spectra either
-#'     as an image or a contour plot. Red colour indicates positive
-#'     correlations, while blue colour shows negative ones.
+#'     as an image or a contour plot. Red color indicates positive
+#'     correlations, while blue color shows negative ones.
 #'
 #' For the synchronous correlation spectrum the real component (\code{Re})
 #'     of the complex correlation matrix must be plotted. The asynchronous
@@ -14,26 +14,26 @@
 #' 
 #' @param Obj List from \code{corr2d} containing the
 #'     2D correlation data.
-#' @param what Real numeric matrix containg the z-values that should be plotted.
+#' @param what Real numeric matrix containing the z-values that should be plotted.
 #' @param specx,specy Numeric vector containing the data that should be plotted
 #'     on top (\code{specx}) and/or on the left (\code{specy}) of
 #'     the 2D spectrum. \code{Mat}, \code{specx} and/or \code{specy} should
-#'     have the same dimensions, respectivly. If \code{NULL} nothing will
+#'     have the same dimensions, respectively. If \code{NULL} nothing will
 #'     be plotted.
 #' @param xlim,ylim Numeric vector with two values indicating the borders
 #'     of the 2D plot. Also truncates \code{specx} and/or \code{specy} to
 #'     match the new plot range.
-#' @param xlab,ylab Charakter or expression containing the text that will
+#' @param xlab,ylab Character or expression containing the text that will
 #'     be plotted on the bottom (\code{xlab}) and/or to the right
 #'     (\code{ylab}) of the 2D plot. Labels can be suppressed with \code{NA}.
-#' @param Contour Logical scalar. Should a contour (\code{TRUE}) or image
+#' @param Contour Logical: Should a contour (\code{TRUE}) or image
 #'     (\code{FALSE}) be drawn?
-#' @param axes Integrer ranging from 0 to 3. Should the axis of the 2D plot
+#' @param axes Integer ranging from 0 to 3. Should the axis of the 2D plot
 #'     be drawn? "0" means no axes, "1" only bottom axis, "2" only right axis and
 #'     "3" both axes are drawn.
-#' @param Legend Logical scalar. Should a colour legend be plotted in the top
+#' @param Legend Logical: Should a color legend be plotted in the top
 #'     right corner?
-#' @param N Positive, non-zero integrer indicating how many contour or image
+#' @param N Positive, non-zero integer indicating how many contour or image
 #'     levels should be plotted.
 #' @param zlim Numeric vector with two values defining the z-range of the 2D
 #'     plot.
@@ -43,7 +43,8 @@
 #' @param ... Additional arguments either passed to
 #'     \code{\link[graphics]{image}} or \code{\link[graphics]{contour}}
 #'
-#' @references I. Noda, \emph{J. Mol. Struct.}, 2006, \strong{799}, 41-47.
+#' @references For interpretation rules see:
+#'     I. Noda (2006) <DOI:10.1016/j.molstruc.2005.12.060>
 #' 
 #' @seealso See \code{\link{plot_corr2din3d}} for 3D plots.
 #'
@@ -148,9 +149,9 @@ plot_corr2d <-
                               col = COL, levels = Where, zlim = zlim, drawlabels = F, ...)
         } else {
             graphics::image(x = Obj$Wave1[Which1], y = Obj$Wave2[Which2], z = what[Which1, Which2],
-                                col = COL, xlab = "", ylab = "", zlim = zlim, ...)
+                            col = COL, xlab = "", ylab = "", zlim = zlim, ...)
         }
-
+        
         abline(a = 0, b = 1, col = rgb(red = 1, green = 1, blue = 1, alpha = 0.5), lwd = par()$lwd * 2)
         par(xpd = NA, xaxt = "s", yaxt = "s", xaxs = "i", yaxs = "i", cex = 1, mar=c(0, 0, 0, 0))
         box(which = "figure", lwd = 1)
@@ -160,10 +161,10 @@ plot_corr2d <-
         if ((axes == 2) | (axes == 3)){
             axis(side = 4, las = 2, lwd = 1)
         }
-
+        
         mtext(side = 1, xlab, line = 3.5, cex = par()$cex ++ 0.3)
         mtext(side = 4, ylab, line = 3.5, cex = par()$cex ++ 0.3)
-
+        
         if(Legend == TRUE){
             # top right -------------------------------------------------------
             screen(7)
@@ -173,13 +174,13 @@ plot_corr2d <-
                 fields::image.plot(z = what[Which1,Which2], legend.only = T,
                                    smallplot = c(0.15, 0.3, 0.2, 0.8), col = COL,
                                    axis.args = list(at = quantile(Where, prob = c(0.1, 0.9)),
-                                   labels = format(x = quantile(Where, prob = c(0.1, 0.9)), digit = 2)),
+                                                    labels = format(x = quantile(Where, prob = c(0.1, 0.9)), digit = 2)),
                                    zlim = zlim, legend.lab = "", cex = 0.7, graphics.reset = TRUE)
             } else {
                 fields::image.plot(z = what[Which1, Which2],legend.only = T,
                                    smallplot = c(0.15, 0.3, 0.2, 0.8),
                                    col = COL, axis.args = list(at = range(what[Which1, Which2]),
-                                   labels = format(x = range(what[Which1, Which2]), digits = 2)),
+                                                               labels = format(x = range(what[Which1, Which2]), digits = 2)),
                                    legend.lab = "", cex = 0.7, graphics.reset = TRUE)
             }
             
@@ -199,21 +200,21 @@ plot_corr2d <-
 #'     spectrum is the respective imaginary component (\code{Im}).
 #' 
 #' @param Mat Real numeric matrix containing the z-values to plot.
-#' @param specx,specy Numeric vector containg the data, that will be
+#' @param specx,specy Numeric vector containing the data, that will be
 #'     plotted at the x and y axis. Can be any data and does not need to have
 #'     the same dimensions as \code{Mat}.
 #' @param scalex,scaley A real number which describes how \code{specx}
 #'     (or \code{specy}) get scaled. Positive numbers lead to a spectrum
 #'     plotted inside the box, while negative numbers lead to a spectrum
 #'     plotted outside the box.
-#' @param Col Vector containg colours used to plot the 3D plot and the
+#' @param Col Vector containing colors used to plot the 3D plot and the
 #'     respective projection. 
 #' @param reduce Non-zero rational number describing how to
 #'     \code{\link[mmand]{resample}} the data values. Can reduce the 
 #'     computational demand and can be used for fast previews.
 #' @param zlim Numeric vector with two values indicating the z-range of
 #'     the 3D plot.
-#' @param projection Logical scalar. Should a 2D projection of the 3D surface
+#' @param projection Logical: Should a 2D projection of the 3D surface
 #'     be plotted a the bottom of the box?
 #' @param ... Additional arguments passed to \code{\link[fields]{drape.plot}}
 #' 
@@ -229,7 +230,7 @@ plot_corr2d <-
 #'    plot_corr2din3d(Mat = Re(twod$FT), specx = twod$Ref1,
 #'        specy = twod$Ref1, reduce = 2, scalex = -175, scaley = -175,
 #'        zlim = c(-0.75, 1.25)*10^-4, projection = FALSE,
-#'        border = NA, theta = 25, phi = 15, add.legend = FALSE)
+#'        border = gray(0.2), theta = 25, phi = 15, add.legend = FALSE)
 #'    
 #' @export
 #' @importFrom graphics par polygon lines
@@ -242,12 +243,12 @@ plot_corr2din3d <-
         par_old <- par(no.readonly = TRUE)
         x <- 1:NROW(Mat)
         y <- 1:NCOL(Mat)
-
+        
         if (!is.null(reduce)) {
             Which.x <- (1:length(x))[which(1:length(x)%%reduce == 0)]
             Which.y <- (1:length(y))[which(1:length(y)%%reduce == 0)]
             Mat <- mmand::resample(x = Mat, points = list(x = x[Which.x],
-                                   y = y[Which.y]), kernel = mmand::boxKernel())
+                                                          y = y[Which.y]), kernel = mmand::boxKernel())
             x <- x[Which.x]
             y <- y[Which.y]
         }

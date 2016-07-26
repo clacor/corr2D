@@ -9,7 +9,7 @@ sim2ddata(L = 400, t = 0:10, k1 = 0.2, k2 = 0.8, X = c(1000, 1400),
   C = c(1160, 1240), Camp = c(4, 9))
 }
 \arguments{
-\item{L}{Positive, non-zero integer specifing how much spectral variables
+\item{L}{Positive, non-zero integer specifying how much spectral variables
 should be used to describe the kinetic dataset.}
 
 \item{t}{Numeric vector containing non-negative real numbers describing which
@@ -18,14 +18,14 @@ reaction times should be used to simulate the kinetic data.}
 \item{k1, k2}{Positive, non-zero integers describing the time constants used
 to simulate the reactions A -> B (\code{k1}) and B -> C (\code{k2}).}
 
-\item{X}{Numeric vector with two values specifing the range of the simulated
+\item{X}{Numeric vector with two values specifying the range of the simulated
 spectral variables.}
 
-\item{A, B, C}{Numeric vector with two values specifing the two signal
+\item{A, B, C}{Numeric vector with two values specifying the two signal
 positions of species A, B and C, respectively. It's the \code{mean} used in
 \code{\link[stats]{dnorm}} to simulate the signal.}
 
-\item{Aamp, Bamp, Camp}{Numeric vector with two values specifing the signal
+\item{Aamp, Bamp, Camp}{Numeric vector with two values specifying the signal
 width of species A, B and C, respectively. It's the standard deviation
 (\code{sd}) used in \code{\link[stats]{dnorm}} to simulate the signal.}
 }
@@ -44,10 +44,10 @@ width of species A, B and C, respectively. It's the standard deviation
 The simulation assumes 2 spectral signals for each of the 3 species A, B
     and C. The sequential reaction is defined by 2 time constants k1 and k2.
     The spectral information can be sampled at every point during the
-    reaction to get an arbitary profil of the kinetic data. The signals of
+    reaction to get an arbitrary profile of the kinetic data. The signals of
     the three species are modeled by a normal distribution. In addition the
     spectral variable is assumed to be equidistant and the number of spectral
-    variables can also be chosen arbitary.
+    variables can also be chosen arbitrary.
 }
 \examples{
     testdata <- sim2ddata()
@@ -59,6 +59,6 @@ The simulation assumes 2 spectral signals for each of the 3 species A, B
 }
 \references{
 The default values are inspired by:
-    I. Noda, \emph{J. Mol. Struct.}, 2014, \strong{1069}, 50-59.
+    I. Noda (2014) <DOI:10.1016/j.molstruc.2014.01.024>
 }
 

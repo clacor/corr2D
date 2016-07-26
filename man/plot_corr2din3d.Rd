@@ -11,7 +11,7 @@ plot_corr2din3d(Mat, specx = NULL, specy = NULL, scalex = NULL,
 \arguments{
 \item{Mat}{Real numeric matrix containing the z-values to plot.}
 
-\item{specx, specy}{Numeric vector containg the data, that will be
+\item{specx, specy}{Numeric vector containing the data, that will be
 plotted at the x and y axis. Can be any data and does not need to have
 the same dimensions as \code{Mat}.}
 
@@ -20,7 +20,7 @@ the same dimensions as \code{Mat}.}
 plotted inside the box, while negative numbers lead to a spectrum
 plotted outside the box.}
 
-\item{Col}{Vector containg colours used to plot the 3D plot and the
+\item{Col}{Vector containing colors used to plot the 3D plot and the
 respective projection.}
 
 \item{reduce}{Non-zero rational number describing how to
@@ -30,7 +30,7 @@ computational demand and can be used for fast previews.}
 \item{zlim}{Numeric vector with two values indicating the z-range of
 the 3D plot.}
 
-\item{projection}{Logical scalar. Should a 2D projection of the 3D surface
+\item{projection}{Logical: Should a 2D projection of the 3D surface
 be plotted a the bottom of the box?}
 
 \item{...}{Additional arguments passed to \code{\link[fields]{drape.plot}}}
@@ -50,7 +50,7 @@ For the synchronous correlation spectrum the real component (\code{Re})
    plot_corr2din3d(Mat = Re(twod$FT), specx = twod$Ref1,
        specy = twod$Ref1, reduce = 2, scalex = -175, scaley = -175,
        zlim = c(-0.75, 1.25)*10^-4, projection = FALSE,
-       border = NA, theta = 25, phi = 15, add.legend = FALSE)
+       border = gray(0.2), theta = 25, phi = 15, add.legend = FALSE)
    
 }
 \seealso{

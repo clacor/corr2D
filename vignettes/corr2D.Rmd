@@ -28,16 +28,16 @@ can freely choose the reference spectrum used to create the dynamic spectra,
 how the perturbation vector should be handled, if and how the resulting 2D
 spectra should be scaled and how many cores should be used to calculate the
 correlation matrix.  
-The plot functions offer a wide varity of options to customize the look
+The plot functions offer a wide variety of options to customize the look
 of 2D spectra. In this context the appearance of the main spectrum can be
-altered and the 1D reference spectra as well as the colour legend can be
+altered and the 1D reference spectra as well as the color legend can be
 controlled.  
 The package also features an example dataset containing preprocessed FT-Raman
 spectra of a self-healing polymer sample.
 
 # How to use corr2D on a simple example
 
-First we need to make the package avilable and get an example dataset. For
+First we need to make the package available and get an example dataset. For
 illustration purposes we use the FuranMale dataset from the present corr2D
 package.
 ```{r}

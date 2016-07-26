@@ -6,23 +6,23 @@
 #' The simulation assumes 2 spectral signals for each of the 3 species A, B
 #'     and C. The sequential reaction is defined by 2 time constants k1 and k2.
 #'     The spectral information can be sampled at every point during the
-#'     reaction to get an arbitary profil of the kinetic data. The signals of
+#'     reaction to get an arbitrary profile of the kinetic data. The signals of
 #'     the three species are modeled by a normal distribution. In addition the
 #'     spectral variable is assumed to be equidistant and the number of spectral
-#'     variables can also be chosen arbitary.
+#'     variables can also be chosen arbitrary.
 #'     
-#' @param L Positive, non-zero integer specifing how much spectral variables
+#' @param L Positive, non-zero integer specifying how much spectral variables
 #'     should be used to describe the kinetic dataset.
 #' @param t Numeric vector containing non-negative real numbers describing which
 #'     reaction times should be used to simulate the kinetic data.
 #' @param k1,k2 Positive, non-zero integers describing the time constants used
 #'     to simulate the reactions A -> B (\code{k1}) and B -> C (\code{k2}).
-#' @param X Numeric vector with two values specifing the range of the simulated
+#' @param X Numeric vector with two values specifying the range of the simulated
 #'     spectral variables.
-#' @param A,B,C Numeric vector with two values specifing the two signal
+#' @param A,B,C Numeric vector with two values specifying the two signal
 #'     positions of species A, B and C, respectively. It's the \code{mean} used in
 #'     \code{\link[stats]{dnorm}} to simulate the signal.
-#' @param Aamp,Bamp,Camp Numeric vector with two values specifing the signal
+#' @param Aamp,Bamp,Camp Numeric vector with two values specifying the signal
 #'     width of species A, B and C, respectively. It's the standard deviation
 #'     (\code{sd}) used in \code{\link[stats]{dnorm}} to simulate the signal.
 #' 
@@ -33,7 +33,7 @@
 #'     ideal format to be analyzed by \code{\link[corr2D]{corr2d}}.
 #' 
 #' @references The default values are inspired by:
-#'     I. Noda, \emph{J. Mol. Struct.}, 2014, \strong{1069}, 50-59.
+#'     I. Noda (2014) <DOI:10.1016/j.molstruc.2014.01.024>
 #' 
 #' @examples
 #'     testdata <- sim2ddata()
@@ -61,7 +61,7 @@ sim2ddata <- function(L = 400, t = 0:10, k1 = 0.2, k2 = 0.8, X = c(1000, 1400),
     Bt <- ((exp(-k2 * t) - exp(-k1 * t)) / (exp(-k2 * tstar) - exp(-k1 * tstar))) %o% B
     
     Ct <- (1 - (k2 * exp(-k1 * t) - k1 * exp(-k2 * t)) / (k2 - k1)) %o% C
-
+    
     Gt <- At + Bt + Ct
     
     colnames(Gt) <- X

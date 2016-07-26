@@ -11,49 +11,52 @@ corr2d(Mat1, Mat2 = NULL, Ref1 = NULL, Ref2 = NULL, Wave1 = NULL,
 }
 \arguments{
 \item{Mat1, Mat2}{Numeric matrix containing the data which will be correlated;
-'\emph{Spectral variable}' by columns and '\emph{perturbation}' by rows. For hetero
-correlations \code{Mat1} and \code{Mat2} must have the same number of rows.}
+'\emph{spectral variable}' by columns and '\emph{perturbation variables}'
+by rows. For hetero correlations \code{Mat1} and \code{Mat2} must have
+the same number of rows.}
 
-\item{Ref1, Ref2}{Numeric vector containg a single spectrum, which will be
-substracted from \code{Mat1} (or \code{Mat2}, respectivly) to generate dynamic spectra
-for 2D correlation analysis. Defaults to \code{NULL} in which case the \code{colMeans()}
-of \code{Mat1} (or \code{Mat2}, respectivly) is used as reference. The length of \code{Ref1}
+\item{Ref1, Ref2}{Numeric vector containing a single spectrum, which will be
+subtracted from \code{Mat1} (or \code{Mat2}, respectively) to generate dynamic spectra
+for 2D correlation analysis. Default is \code{NULL} in which case the \code{colMeans()}
+of \code{Mat1} (or \code{Mat2}, respectively) is used as reference. The length of \code{Ref1}
 (or \code{Ref2}) needs to be equal to the number of columns in \code{Mat1} (or \code{Mat2}).}
 
 \item{Wave1, Wave2}{Numeric vector containing the spectral variable. Needs to be
-specified if column names of \code{Mat1} (or \code{Mat2}) are undefinied.}
+specified if column names of \code{Mat1} (or \code{Mat2}) are undefined.}
 
-\item{Time}{Numeric vector containing the perturbation. If specified, \code{Mat1}
+\item{Time}{Numeric vector containing the perturbation variables. If specified, \code{Mat1}
 (and \code{Mat2} if given) will be interpolated to \code{N} equally spaced perturbation
-values using \code{Int} to speed up the fft algorithm.}
+varibales using \code{Int} to speed up the fft algorithm.}
 
-\item{Int}{Function specifing how the dataset will be interpolated to give
-\code{N} equally spaced perturbation values.}
+\item{Int}{Function specifying how the dataset will be interpolated to give
+\code{N} equally spaced perturbation variables. \code{\link[stats]{splinefun}}
+(default) or \code{\link[stats]{approxfun}} can for example be used.}
 
-\item{N}{Positive, non-zero integer specifing how many equally spaced
-perturbation values should be interpolated using \code{Int}. \code{corr2d}
-is fastest if \code{N} is a power of 2.}
+\item{N}{Positive, non-zero integer specifying how many equally spaced
+perturbation variables should be interpolated using \code{Int}. \code{N}
+should be higher than 4.\code{corr2d} is fastest if \code{N} is a power
+of 2.}
 
-\item{Norm}{Numeric vector specifing how the correlation matrix should be
-normalized. Needs to have length \code{(NCOL(Mat1) - 1)}.}
+\item{Norm}{A number specifying how the correlation matrix should be
+normalized.}
 
 \item{scaling}{Positive real number used as exponent when scaling the dataset
 with its standard deviation. Defaults to 0 meaning no scaling. 0.5
 (\emph{Pareto scaling}) and 1 (\emph{Pearson scaling}) are commonly used to enhance
 weak correlations relative to strong correlations.}
 
-\item{corenumber}{Positive, non-zero integer specifing how many CPU cores
+\item{corenumber}{Positive, non-zero integer specifying how many CPU cores
 should be used for parallel fft computation.}
 
-\item{preview}{Logical scalar, should a 3D preview of the synchronous
-correlation spectrum be drawn at the end? Uses \code{\link[rgl]{persp3d}} from \pkg{rgl}
+\item{preview}{Logical: Should a 3D preview of the synchronous correlation
+spectrum be drawn at the end? Uses \code{\link[rgl]{persp3d}} from \pkg{rgl}
 package.}
 }
 \value{
 \code{corr2D} returns a list of class "corr2d" containing the complex
     correlation matrix (\code{$FT}), the used reference spectra (\code{$Ref1},
     \code{$Ref2}), the spectral variables (\code{$Wave1}, \code{$Wave2}), the
-    (interpolated) perturbation (\code{$Time}) and logical scalar (\code{$Het})
+    (interpolated) perturbation variables (\code{$Time}) and logical variable (\code{$Het})
     indicating if homo (\code{FALSE}) or hetero (\code{TRUE}) correlation was done.
 }
 \description{
@@ -80,8 +83,8 @@ package.}
 
 }
 \references{
-I. Noda, \emph{Appl. Spectrosc.}, 1993, \strong{47}, 1329-1336.\cr
-    I. Noda, \emph{Vib. Spectrosc.}, 2012, \strong{60}, 146-153.
+I. Noda (1993) <DOI:10.1366/0003702934067694>\cr
+    I. Noda (2012) <DOI:10.1016/j.vibspec.2012.01.006>
 }
 \seealso{
 For plotting of the resulting list containing the 2D correlation
