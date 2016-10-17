@@ -12,8 +12,7 @@
 #'     2D correlation plots. See references for interpretation rules (so
 #'     called Noda rules).
 #' 
-#' @param Obj List from \code{corr2d} containing the
-#'     2D correlation data.
+#' @param Obj List from \code{corr2d} containing the 2D correlation data.
 #' @param what Real numeric matrix containing the z-values that should be plotted.
 #' @param specx,specy Numeric vector containing the data that should be plotted
 #'     on top (\code{specx}) and/or on the left (\code{specy}) of
@@ -68,6 +67,50 @@ plot_corr2d <-
              Contour = TRUE, axes = 3, Legend = TRUE, N = 20,
              zlim = NULL, Cutout = NULL, ...)
     {
+        # check user input for errors -----------------------------------------
+        if (!is.null(xlim)) {
+            if (length(xlim) != 2 || is.complex(xlim) || xlim[1] > xlim[2]) {
+                stop("xlim must have exactly 2 real values or must be NULL.
+                     The first value needs to be smaller than the second one.")
+            }
+        }
+        if (!is.null(ylim)) {
+            if (length(ylim) != 2 || is.complex(ylim) || ylim[1] > ylim[2]) {
+                stop("ylim must have exactly 2 real values or must be NULL.
+                     The first value needs to be smaller than the second one.")
+            }
+        }
+        if (!is.null(zlim)) {
+            if (length(zlim) != 2 || is.complex(zlim) || zlim[1] > zlim[2]) {
+                stop("zlim must have exactly 2 real values or must be NULL.
+                     The first value needs to be smaller than the second one.")
+            }
+        }
+        
+        if (!is.logical(Contour)) {
+            stop("Contour needs to be logical")
+        }
+        
+        if (axes %in% c(0, 1, 2, 3) == FALSE) {
+            stop("axes my only be 0 (no axes), 1 (only bottom axis),
+                 2 (only right axis) or 3 (both axes)")
+        }
+        
+        if (!is.logical(Legend)) {
+            stop("Legend needs to be logical")
+        }
+        
+        if (N <= 0 || N%%1 != 0) {
+            stop("N must be a positive, non-zero integer")
+        }
+        
+        if (!is.null(Cutout)) {
+            if (length(Cutout) != 2 || is.complex(Cutout) || Cutout[1] > Cutout[2]) {
+                stop("Cutout must have exactly 2 real values or must be NULL.
+                     The first value needs to be smaller than the second one.")
+            }
+        }
+        
         par_old <- par(no.readonly = TRUE)
         # avoid "invalid screen(1)" error in RStudio --------------------------
         close.screen(all.screens = T)
@@ -95,12 +138,12 @@ plot_corr2d <-
                            c(0.15 + OFF, 0.85 - OFF, 0, 0.15 + OFF),          # bottom
                            c(0, 0.15 + OFF, 0.85 - OFF, 1),                   # top left
                            c(0.85 - OFF, 1, 0.85 - OFF, 1)                    # Legend top right
-        )
+                           )
         )
         
         # plot one dimensional spectra top and left ---------------------------
         if (!is.null(specy)) {
-            # Spec left ------------------------------------------------------
+            # Spec left -------------------------------------------------------
             screen(1)
             par(xaxt = "n", yaxt = "n", mar = c(0, 0, 0, 0), bty = "n", yaxs = "i")
             plot.default(x = max(specy[Which2]) - specy[Which2],
@@ -152,8 +195,10 @@ plot_corr2d <-
                             col = COL, xlab = "", ylab = "", zlim = zlim, ...)
         }
         
-        abline(a = 0, b = 1, col = rgb(red = 1, green = 1, blue = 1, alpha = 0.5), lwd = par()$lwd * 2)
-        par(xpd = NA, xaxt = "s", yaxt = "s", xaxs = "i", yaxs = "i", cex = 1, mar=c(0, 0, 0, 0))
+        abline(a = 0, b = 1, col = rgb(red = 1, green = 1, blue = 1, alpha = 0.5),
+            lwd = par()$lwd * 2)
+        par(xpd = NA, xaxt = "s", yaxt = "s", xaxs = "i", yaxs = "i", cex = 1,
+            mar=c(0, 0, 0, 0))
         box(which = "figure", lwd = 1)
         if ((axes == 1) | (axes == 3)){
             axis(side = 1, lwd = 1)
@@ -229,7 +274,7 @@ plot_corr2d <-
 #'    
 #'    plot_corr2din3d(Mat = Re(twod$FT), specx = twod$Ref1,
 #'        specy = twod$Ref1, reduce = 2, scalex = -175, scaley = -175,
-#'        zlim = c(-0.75, 1.25)*10^-4, projection = FALSE,
+#'        zlim = c(-1.5, 2.2)*10^-3, projection = FALSE,
 #'        border = gray(0.2), theta = 25, phi = 15, add.legend = FALSE)
 #'    
 #' @export
@@ -240,18 +285,46 @@ plot_corr2din3d <-
              scalex = NULL, scaley = NULL, Col = NULL, reduce = NULL,
              zlim = NULL, projection = FALSE, ...)
     {
+        # check user input for errors -----------------------------------------
+        if (!is.null(zlim)) {
+            if (length(zlim) != 2 || is.complex(zlim) || zlim[1] > zlim[2]) {
+                stop("zlim must have exactly 2 real values or must be NULL.
+                     The first value needs to be smaller than the second one.")
+            }
+        }
+        
+        if (!is.null(scalex)) {
+            if (length(scalex) != 1 || is.complex(scalex)) {
+                stop("scalex must be a real number")
+            }
+        }
+        if (!is.null(scaley)) {
+            if (length(scaley) != 1 || is.complex(scaley)) {
+                stop("scaley must be a real number")
+            }
+        }
+        
+        if (!is.logical(projection)) {
+            stop("Contour needs to logical")
+        }
+        
+        # generate x- and y-axis ----------------------------------------------
         par_old <- par(no.readonly = TRUE)
         x <- 1:NROW(Mat)
         y <- 1:NCOL(Mat)
         
+        # resample input matrix -----------------------------------------------
         if (!is.null(reduce)) {
             Which.x <- (1:length(x))[which(1:length(x)%%reduce == 0)]
             Which.y <- (1:length(y))[which(1:length(y)%%reduce == 0)]
             Mat <- mmand::resample(x = Mat, points = list(x = x[Which.x],
-                                                          y = y[Which.y]), kernel = mmand::boxKernel())
+                                                          y = y[Which.y]),
+                                   kernel = mmand::boxKernel())
             x <- x[Which.x]
             y <- y[Which.y]
         }
+
+        # Calculate color code
         if (is.null(Col)){
             Zero <- median(Mat)
             Max <- max(Mat)
@@ -259,13 +332,15 @@ plot_corr2din3d <-
             Breaks <- c(seq(from = Min, to = Zero, length.out = 33),
                         seq(from = Zero, to = Max, length.out = 33)[2:33])
             Col <- fields::tim.colors(64)
-        }else{
+        } else {
             Breaks <- NULL
         }
+
         if (is.null(zlim)){
             zlim <- range(Mat, na.rm = T)
         }
         
+        # plot 3D surface and maybe 2D projection of it
         if (projection == TRUE){
             WW <- fields::drape.plot(x = x, y = y, z = Mat, col = Col, breaks = Breaks, zlim = zlim, ...)
             COL <- fields::drape.color(z = Mat, col = Col, zlim = zlim, breaks = Breaks)$color.index
@@ -284,13 +359,12 @@ plot_corr2din3d <-
             WW <- fields::drape.plot(x = x, y = y, z = Mat, col = Col, breaks = Breaks, zlim = zlim, ...)
         }
         
-        
-        
+        # add spectra to x- and/or y-axis
         if (!is.null(specx)) {
             if (is.null(scalex)) {
                 scalex <- 1
             }
-            X<-seq(min(x), max(x), length.out = length(specx))
+            X <- seq(min(x), max(x), length.out = length(specx))
             Points.x <- grDevices::trans3d(x = X, y = min(y) + scalex * specx,
                                            z = rep(zlim[1], length(X)), pmat = WW)
             lines(x = Points.x$x, Points.x$y, lwd = 2)
@@ -300,7 +374,7 @@ plot_corr2din3d <-
             if (is.null(scaley)) {
                 scaley <- 1
             }
-            Y<-seq(min(y), max(y), length.out = length(specy))
+            Y <- seq(min(y), max(y), length.out = length(specy))
             Points.y <- grDevices::trans3d(y = Y, x = max(x) - scaley * specy,
                                            z = rep(zlim[1], length(Y)), pmat = WW)
             lines(x = Points.y$x, Points.y$y, lwd = 2)

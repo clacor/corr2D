@@ -75,31 +75,74 @@
 corr2d <-
     function(Mat1, Mat2 = NULL, Ref1 = NULL, Ref2 = NULL,
              Wave1 = NULL, Wave2 = NULL, Time = NULL, Int = stats::splinefun,
-             N = 2^ceiling(log2(NROW(Mat1))), Norm = 1/(pi * (NCOL(Mat1) - 1)), 
+             N = 2^ceiling(log2(NROW(Mat1))), Norm = 1/(pi * (NROW(Mat1) - 1)), 
              scaling = 0, corenumber = parallel::detectCores(), preview = FALSE)
-    { 
+    {
+        # check user input for errors -----------------------------------------
+        if (!is.null(Ref1)) {
+            if (!identical(length(Ref1), NCOL(Mat1))) {
+                stop("length(Ref1) must be equal to NCOL(Mat1)")
+            }
+        }
+        if (!is.null(Mat2) && !is.null(Ref2)) {
+            if (!identical(length(Ref2), NCOL(Mat2))) {
+                stop("length(Ref2) must be equal to NCOL(Mat2)")
+            }
+        }
+        
+        if (is.null(colnames(Mat1)) &&
+            is.null(Wave1)) {
+            stop("Spectral variable 1 must be specified at Wave1 or in
+                 colnames(Mat1)")
+        }
+        if (!is.null(Mat2)) {
+            if (is.null(colnames(Mat2)) &&
+                is.null(Wave2)) {
+                stop("Spectral variable 2 must be specified at Wave2 or in
+                     colnames(Mat2)")
+            }
+        }
+        
+        if (N <= 0 || N%%1 != 0) {
+            stop("N must be a positive, non-zero integer")
+        }
+        if (corenumber <= 0 || corenumber%%1 != 0) {
+            stop("corenumber must be a positive, non-zero integer")
+        }
+        
+        if (!is.logical(preview)) {
+            stop("preview needs to be logical")
+        }
+        
         # create an R session for every detected CPU core for parallel computing
         cl <- parallel::makeCluster(corenumber)
         doParallel::registerDoParallel(cl)
         
+        # define Wave1/2 from colnames if needed ------------------------------
+        if (is.null(Wave1)) {
+            Wave1 <- as.numeric(colnames(Mat1))
+        }
+        if (!is.null(Mat2) && !identical(Mat1, Mat2) && is.null(Wave2)) {
+            Wave2 <- as.numeric(colnames(Mat2))
+        }
+        
         # spectral variable must be increasing, also switch Ref if needed ------
-        if (is.unsorted(as.numeric(colnames(Mat1)))) {
+        if (is.unsorted(Wave1)) {
+            Wave1 <- Wave1[length(Wave1):1]
             Mat1 <- Mat1[, NCOL(Mat1):1]
             if (!is.null(Ref1)) {
                 Ref1 <- Ref1[length(Ref1):1]
             }
         }
-        if (!is.null(Mat2) && is.unsorted(as.numeric(colnames(Mat2)))) {
+        if (!is.null(Mat2) && !identical(Mat1, Mat2) && is.unsorted(Wave2)) {
+            Wave2 <- Wave2[length(Wave2):1]
             Mat2 <- Mat2[, NCOL(Mat2):1]
             if (!is.null(Ref2)) {
                 Ref2 <- Ref2[length(Ref2):1]
             }
         }
         
-        # define Wave1/2, D1/2, Het -------------------------------------------
-        if (is.null(Wave1)) {
-            Wave1 <- as.numeric(colnames(Mat1))
-        }
+        # define Wave2 (if needed), D1/2, Het ---------------------------------
         if (is.null(Mat2) || identical(Mat1, Mat2)) {
             cat(c("HOMO-Correlation:", corenumber, "cores used for calculation\n"))
             Het <- FALSE
@@ -112,9 +155,6 @@ corr2d <-
             Het <- TRUE
             D1 <- dim(Mat1)
             D2 <- dim(Mat2)
-            if (is.null(Wave2)) {
-                Wave2 <- as.numeric(colnames(Mat2))
-            }
         }
         
         # Interpolate values of perturbation variable for equidistant ---------
@@ -122,7 +162,7 @@ corr2d <-
         if ((is.null(Time) == FALSE) & (length(Time) == D1[1])) {
             cat(c(format(Sys.time(), "%X -"), "Interpolate Time from",
                   min(Time), "to", max(Time), "\n", "to obtain", N,
-                  "equidistant datapoints for FFT", "\n"))
+                  "equidistant data points for FFT", "\n"))
             TIME <- seq(min(Time), max(Time), length.out = N)
             
             tmp <- apply(Mat1, 2, function(y) Int(x = Time, y = y))
@@ -136,8 +176,8 @@ corr2d <-
             }
             Time <- TIME
         }
-        # Get perturbation variables from rownames
-        if (is.null(Time) == TRUE && is.null(rownames(Mat1)) == FALSE) {
+        # Get perturbation variables from rownames ----------------------------
+        if (is.null(Time) && !is.null(rownames(Mat1))) {
             Time <- as.numeric(rownames(Mat1))
         }
         
@@ -168,8 +208,8 @@ corr2d <-
         # for every point in the 2D-correlation spectrum ----------------------
         i <- NULL # Dummy to trick R CMD check 
         FT <- NULL
-        cat(c(format(Sys.time(), "%X -"), "Fast Fourier Transformation and Multiplication \n",
-              "to obtain a", D1[2], "x", D2[2], "Correlation-Matrix", "\n"))
+        cat(c(format(Sys.time(), "%X -"), "Fast Fourier Transformation and multiplication \n",
+              "to obtain a", D1[2], "x", D2[2], "correlation matrix", "\n"))
         
         FT <- matrix(NA, NCOL(Mat1), NCOL(Mat2))
         ft1 <- foreach::foreach(i = 1:NCOL(Mat1), .combine = 'cbind') %dopar% {
@@ -191,7 +231,6 @@ corr2d <-
                   Time = Time, Het = Het)
         
         parallel::stopCluster(cl)
-        #closeAllConnections()
         
         # 3d preview of the synchronous correlation spectrum ------------------
         if (preview == TRUE) {

@@ -1,3 +1,10 @@
+# corr2D 0.1.11
+- Corrected the default value for the normalization factor. It's now the number
+    of perturbation variables which is NROW() of Mat1.
+- Added error massages to all functions.
+- Reworte the function sim2ddata() to allow to set C and Camp NULL. In that
+    case only the first order reaction A -> B will be simulated and sampled.
+
 # corr2D 0.1.10
 - Added the function sim2ddata to simulate artificial data.
 - Fixed the plotting of the reference spectra on the 2D correlation spectra.

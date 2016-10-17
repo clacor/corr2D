@@ -10,8 +10,7 @@ plot_corr2d(Obj, what = Re(Obj$FT), specx = Obj$Ref1, specy = Obj$Ref2,
   N = 20, zlim = NULL, Cutout = NULL, ...)
 }
 \arguments{
-\item{Obj}{List from \code{corr2d} containing the
-2D correlation data.}
+\item{Obj}{List from \code{corr2d} containing the 2D correlation data.}
 
 \item{what}{Real numeric matrix containing the z-values that should be plotted.}
 

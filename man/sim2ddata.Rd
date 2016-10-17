@@ -9,25 +9,28 @@ sim2ddata(L = 400, t = 0:10, k1 = 0.2, k2 = 0.8, X = c(1000, 1400),
   C = c(1160, 1240), Camp = c(4, 9))
 }
 \arguments{
-\item{L}{Positive, non-zero integer specifying how much spectral variables
+\item{L}{Positive, non-zero integer specifying how many spectral variables
 should be used to describe the kinetic dataset.}
 
-\item{t}{Numeric vector containing non-negative real numbers describing which
-reaction times should be used to simulate the kinetic data.}
+\item{t}{Numeric vector containing non-negative real numbers describing at
+which reaction times the kinetic data should be sampled.}
 
-\item{k1, k2}{Positive, non-zero integers describing the time constants used
-to simulate the reactions A -> B (\code{k1}) and B -> C (\code{k2}).}
+\item{k1, k2}{Positive, non-zero real numbers describing the time constants
+used to simulate the reactions A -> B (\code{k1}) and B -> C (\code{k2}).}
 
 \item{X}{Numeric vector with two values specifying the range of the simulated
 spectral variables.}
 
-\item{A, B, C}{Numeric vector with two values specifying the two signal
-positions of species A, B and C, respectively. It's the \code{mean} used in
-\code{\link[stats]{dnorm}} to simulate the signal.}
+\item{A, B, C}{Numeric vector with two real values specifying the two signal
+positions of species A, B and C, respectively. It's the \code{mean} used
+in \code{\link[stats]{dnorm}} to simulate the signal. C and Camp may be
+NULL in which case only the reaction A -> B is simulated and sampled.}
 
 \item{Aamp, Bamp, Camp}{Numeric vector with two values specifying the signal
 width of species A, B and C, respectively. It's the standard deviation
-(\code{sd}) used in \code{\link[stats]{dnorm}} to simulate the signal.}
+(\code{sd}) used in \code{\link[stats]{dnorm}} to simulate the signal. 
+C and Camp may be NULL in which case only the reaction A -> B is
+simulated and sampled.}
 }
 \value{
 \code{sim2ddata} returns a matrix containing the kinetic data. The
