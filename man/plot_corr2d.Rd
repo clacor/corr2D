@@ -49,7 +49,12 @@ not be plotted. Use with care, because this can generate misleading
 2D plots.}
 
 \item{...}{Additional arguments either passed to
-\code{\link[graphics]{image}} or \code{\link[graphics]{contour}}}
+\code{\link[graphics]{image}} or \code{\link[graphics]{contour}}. Can
+include graphics parameters \code{\link[graphics]{par}} which are in
+part also used by other functions. This includes \code{lwd} (sets line
+width for the 1D plots on the sides, the central 2D contour plot, the
+axes and the surronding box), \code{cex} (influences axes and thier
+labels) and \code{cex.axis} (influences legend labels).}
 }
 \description{
 \code{plot_corr2d} plots two-dimensional correlation spectra either

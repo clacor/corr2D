@@ -223,7 +223,7 @@ corr2d <-
             }
         }
         
-        FT <- matrix(Norm * parallel::parCapply(cl, ft1, get("%*%"), Conj(ft2)), NCOL(ft1), NCOL(ft2), byrow = T)
+        FT <- matrix(Norm * parallel::parCapply(cl, ft1, get("%*%"), Conj(ft2)), NCOL(ft1), NCOL(ft2), byrow = TRUE)
         cat(c(format(Sys.time(), "%X -"), "Done\n"))
         
         Obj<-list(FT = FT, Ref1 = Ref1, Ref2 = Ref2,
@@ -251,6 +251,7 @@ corr2d <-
         return(Obj)
     }
 
+#' @method summary corr2d
 #' @export
 summary.corr2d <- function(object, ...)
 {
@@ -291,3 +292,4 @@ is.corr2d <- function(x)
 {
     inherits(x, "corr2d", which = FALSE)
 }
+

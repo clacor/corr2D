@@ -1,3 +1,14 @@
+# corr2D 0.1.11.9001
+- Rewrote the function plot_corr2d(): The graphical parameters specified at
+    "..." are now partly transferred to all parts of the plot not just the
+    main screen.
+- Cleaned up the image.plot() code inside plot_corr2d().
+- Fixed a bug which prevented the use of an individual color palette in
+    plot_corr2din3d().
+- Changed the default color palette in plot_corr2din3d() from
+    fields::timcolors() to colorspace::diverge_hcl(). This change should help
+    to improve the default graphics quality.
+
 # corr2D 0.1.11
 - Corrected the default value for the normalization factor. It's now the number
     of perturbation variables which is NROW() of Mat1.

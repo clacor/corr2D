@@ -5,7 +5,8 @@
 \title{3D plot of two-dimensional correlation spectra.}
 \usage{
 plot_corr2din3d(Mat, specx = NULL, specy = NULL, scalex = NULL,
-  scaley = NULL, Col = NULL, reduce = NULL, zlim = NULL,
+  scaley = NULL, Col = colorspace::diverge_hcl(64, h = c(240, 0), c = 100, l
+  = c(20, 100), power = 0.4), reduce = NULL, zlim = NULL,
   projection = FALSE, ...)
 }
 \arguments{
@@ -33,7 +34,7 @@ the 3D plot.}
 \item{projection}{Logical: Should a 2D projection of the 3D surface
 be plotted a the bottom of the box?}
 
-\item{...}{Additional arguments passed to \code{\link[fields]{drape.plot}}}
+\item{...}{Additional arguments passed to \code{\link[fields]{drape.plot}}.}
 }
 \description{
 \code{plot_corr2din3d} plots two-dimensional correlation spectra as an 3D surface.

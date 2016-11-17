@@ -40,7 +40,12 @@
 #'     not be plotted. Use with care, because this can generate misleading
 #'     2D plots. 
 #' @param ... Additional arguments either passed to
-#'     \code{\link[graphics]{image}} or \code{\link[graphics]{contour}}
+#'     \code{\link[graphics]{image}} or \code{\link[graphics]{contour}}. Can
+#'     include graphics parameters \code{\link[graphics]{par}} which are in
+#'     part also used by other functions. This includes \code{lwd} (sets line
+#'     width for the 1D plots on the sides, the central 2D contour plot, the
+#'     axes and the surronding box), \code{cex} (influences axes and thier
+#'     labels) and \code{cex.axis} (influences legend labels).
 #'
 #' @references For interpretation rules see:
 #'     I. Noda (2006) <DOI:10.1016/j.molstruc.2005.12.060>
@@ -60,6 +65,7 @@
 #' @importFrom grDevices rgb
 #' @importFrom graphics abline axis box close.screen mtext par plot.default screen split.screen
 #' @importFrom stats quantile
+#' @importFrom utils modifyList
 plot_corr2d <-
     function(Obj, what = Re(Obj$FT), specx = Obj$Ref1, specy = Obj$Ref2,
              xlim = NULL, ylim = NULL,
@@ -113,8 +119,12 @@ plot_corr2d <-
         
         par_old <- par(no.readonly = TRUE)
         # avoid "invalid screen(1)" error in RStudio --------------------------
-        close.screen(all.screens = T)
+        close.screen(all.screens = TRUE)
         graphics::plot.new()
+        
+        # get graphics parameters from "..."
+        getparm <- list(...)
+        graphparm <- utils::modifyList(par(), getparm)
         
         # calculate x- and y-window range -------------------------------------
         if (is.null(xlim)) {
@@ -148,7 +158,7 @@ plot_corr2d <-
             par(xaxt = "n", yaxt = "n", mar = c(0, 0, 0, 0), bty = "n", yaxs = "i")
             plot.default(x = max(specy[Which2]) - specy[Which2],
                          y = Obj$Wave2[Which2],
-                         type = "l", lwd = par()$lwd + 1, ann = F)
+                         type = "l", lwd = graphparm$lwd + 1, ann = FALSE)
         }
         
         if (!is.null(specx)) {
@@ -156,7 +166,7 @@ plot_corr2d <-
             screen(2)
             par(xaxt = "n", yaxt = "n", mar = c(0, 0, 0, 0), bty = "n", xaxs = "i")
             plot.default(Obj$Wave1[Which1], specx[Which1],
-                         type = "l", lwd = par()$lwd + 1, ann = F)
+                         type = "l", lwd = graphparm$lwd + 1, ann = FALSE)
         }
         
         # main Part -----------------------------------------------------------
@@ -189,51 +199,54 @@ plot_corr2d <-
         par(xaxt = "n", yaxt = "n", mar = c(0, 0, 0, 0), bty = "n", xaxs = "i", yaxs = "i")
         if (Contour == TRUE){
             graphics::contour(x = Obj$Wave1[Which1], y = Obj$Wave2[Which2], z = what[Which1, Which2],
-                              col = COL, levels = Where, zlim = zlim, drawlabels = F, ...)
+                              col = COL, levels = Where, zlim = zlim, drawlabels = FALSE, ...)
         } else {
             graphics::image(x = Obj$Wave1[Which1], y = Obj$Wave2[Which2], z = what[Which1, Which2],
                             col = COL, xlab = "", ylab = "", zlim = zlim, ...)
         }
         
         abline(a = 0, b = 1, col = rgb(red = 1, green = 1, blue = 1, alpha = 0.5),
-            lwd = par()$lwd * 2)
-        par(xpd = NA, xaxt = "s", yaxt = "s", xaxs = "i", yaxs = "i", cex = 1,
-            mar=c(0, 0, 0, 0))
-        box(which = "figure", lwd = 1)
+            lwd = graphparm$lwd)
+        par(xpd = NA, xaxt = "s", yaxt = "s", xaxs = "i", yaxs = "i", cex = graphparm$cex,
+            mar = c(0, 0, 0, 0))
+        box(which = "figure", lwd = graphparm$lwd)
         if ((axes == 1) | (axes == 3)){
-            axis(side = 1, lwd = 1)
+            axis(side = 1, lwd = graphparm$lwd)
         }
         if ((axes == 2) | (axes == 3)){
-            axis(side = 4, las = 2, lwd = 1)
+            axis(side = 4, las = 2, lwd = graphparm$lwd)
         }
         
-        mtext(side = 1, xlab, line = 3.5, cex = par()$cex ++ 0.3)
-        mtext(side = 4, ylab, line = 3.5, cex = par()$cex ++ 0.3)
+        mtext(side = 1, xlab, line = 3.5, cex = graphparm$cex * 1.3, lwd = graphparm$lwd)
+        mtext(side = 4, ylab, line = 3.5, cex = graphparm$cex * 1.3, lwd = graphparm$lwd)
         
         if(Legend == TRUE){
             # top right -------------------------------------------------------
             screen(7)
             # avoid par(par.old) error from image.plot() by setting par(pin) value positive
             par(pin = abs(par()$pin))
-            if (Contour == TRUE){
-                fields::image.plot(z = what[Which1,Which2], legend.only = T,
-                                   smallplot = c(0.15, 0.3, 0.2, 0.8), col = COL,
-                                   axis.args = list(at = quantile(Where, prob = c(0.1, 0.9)),
-                                                    labels = format(x = quantile(Where, prob = c(0.1, 0.9)), digit = 2)),
-                                   zlim = zlim, legend.lab = "", cex = 0.7, graphics.reset = TRUE)
-            } else {
-                fields::image.plot(z = what[Which1, Which2],legend.only = T,
-                                   smallplot = c(0.15, 0.3, 0.2, 0.8),
-                                   col = COL, axis.args = list(at = range(what[Which1, Which2]),
-                                                               labels = format(x = range(what[Which1, Which2]), digits = 2)),
-                                   legend.lab = "", cex = 0.7, graphics.reset = TRUE)
-            }
             
+            if (Contour == TRUE){
+                fields::image.plot(z = what[Which1,Which2], legend.only = TRUE,
+                    smallplot = c(0.15, 0.3, 0.2, 0.8), col = COL,
+                    axis.args = list(at = quantile(Where, prob = c(0.1, 0.9)),
+                        labels = format(x = quantile(Where, prob = c(0.1, 0.9)),
+                        digit = 2, scientific = TRUE), cex.axis = graphparm$cex.axis),
+                    zlim = zlim, graphics.reset = TRUE)
+            } else {
+                fields::image.plot(z = what[Which1, Which2],legend.only = TRUE,
+                    smallplot = c(0.15, 0.3, 0.2, 0.8), col = COL,
+                    axis.args = list(at = range(what[Which1, Which2]),
+                        labels = format(x = range(what[Which1, Which2]),
+                        digits = 2, scientific = TRUE), cex.axis = graphparm$cex.axis),
+                    graphics.reset = TRUE)
+            }
+        
         }
         
-        screen(3, new = F)
+        screen(3, new = FALSE)
         close.screen(c(1,2,4,5,6,7))
-        on.exit(options(par_old), add = TRUE)
+        on.exit(options(par(par_old)), add = TRUE)
     }
 
 #' 3D plot of two-dimensional correlation spectra.
@@ -261,7 +274,7 @@ plot_corr2d <-
 #'     the 3D plot.
 #' @param projection Logical: Should a 2D projection of the 3D surface
 #'     be plotted a the bottom of the box?
-#' @param ... Additional arguments passed to \code{\link[fields]{drape.plot}}
+#' @param ... Additional arguments passed to \code{\link[fields]{drape.plot}}.
 #' 
 #' @seealso See \code{\link{plot_corr2d}} for 2D plots.
 #'     See \code{\link[fields]{drape.plot}} for information on the plot function.
@@ -280,10 +293,13 @@ plot_corr2d <-
 #' @export
 #' @importFrom graphics par polygon lines
 #' @importFrom stats median
+#' @importFrom colorspace diverge_hcl
 plot_corr2din3d <-
     function(Mat, specx = NULL, specy = NULL,
-             scalex = NULL, scaley = NULL, Col = NULL, reduce = NULL,
-             zlim = NULL, projection = FALSE, ...)
+             scalex = NULL, scaley = NULL,
+             Col = colorspace::diverge_hcl(64, h = c(240, 0),
+                       c = 100, l = c(20, 100), power = 0.4),
+             reduce = NULL, zlim = NULL, projection = FALSE, ...)
     {
         # check user input for errors -----------------------------------------
         if (!is.null(zlim)) {
@@ -324,20 +340,22 @@ plot_corr2din3d <-
             y <- y[Which.y]
         }
 
-        # Calculate color code
-        if (is.null(Col)){
-            Zero <- median(Mat)
-            Max <- max(Mat)
-            Min <- min(Mat)
-            Breaks <- c(seq(from = Min, to = Zero, length.out = 33),
-                        seq(from = Zero, to = Max, length.out = 33)[2:33])
-            Col <- fields::tim.colors(64)
+        # Calculate breaks
+        N <- length(Col)
+        Zero <- 0
+        Max <- max(Mat)
+        Min <- min(Mat)
+        
+        if (N%%2 == 0){
+            Breaks <- c(seq(Min, Zero, length.out = round(N / 2, 0) + 1),
+                        seq(Zero, Max, length.out = round(N / 2, 0) + 1)[2:(round(N / 2, 0) + 1)])
         } else {
-            Breaks <- NULL
+            Breaks <- c(seq(Min, Zero, length.out = round(N / 2, 0) + 2)[1:(round(N / 2, 0) + 1)],
+                        seq(Zero, Max, length.out = round(N / 2, 0) + 2)[2:(round(N / 2, 0) + 2)])
         }
 
         if (is.null(zlim)){
-            zlim <- range(Mat, na.rm = T)
+            zlim <- range(Mat, na.rm = TRUE)
         }
         
         # plot 3D surface and maybe 2D projection of it
@@ -383,9 +401,13 @@ plot_corr2din3d <-
         on.exit(options(par_old), add = TRUE)
     }
 
-#' @export
+
+
+
+#' @seealso See \code{plot\_corr2d()} for further information.
 #' 
-#' @seealso See \code{\link{plot_corr2d}}
+#' @method plot corr2d
+#' @export
 plot.corr2d <- function(x, ...)
 {
     plot_corr2d(x, ...)
