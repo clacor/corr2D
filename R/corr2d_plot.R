@@ -165,7 +165,7 @@ plot_corr2d <-
             # Spec top -------------------------------------------------------
             screen(2)
             par(xaxt = "n", yaxt = "n", mar = c(0, 0, 0, 0), bty = "n", xaxs = "i")
-            plot.default(Obj$Wave1[Which1], specx[Which1],
+            plot.default(x = Obj$Wave1[Which1], y = specx[Which1],
                          type = "l", lwd = graphparm$lwd + 1, ann = FALSE)
         }
         
@@ -246,7 +246,7 @@ plot_corr2d <-
         
         screen(3, new = FALSE)
         close.screen(c(1,2,4,5,6,7))
-        on.exit(options(par(par_old)), add = TRUE)
+        on.exit(options(par_old), add = TRUE)
     }
 
 #' 3D plot of two-dimensional correlation spectra.
@@ -398,7 +398,7 @@ plot_corr2din3d <-
             lines(x = Points.y$x, Points.y$y, lwd = 2)
         }
         
-        on.exit(options(par_old), add = TRUE)
+        on.exit(options(par(par_old)), add = TRUE)
     }
 
 

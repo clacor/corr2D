@@ -1,6 +1,6 @@
-# corr2D 0.1.11.9001
+# corr2D 0.1.12
 - Rewrote the function plot_corr2d(): The graphical parameters specified at
-    "..." are now partly transferred to all parts of the plot not just the
+    "..." are now partly transferred to all parts of the plot, not just the
     main screen.
 - Cleaned up the image.plot() code inside plot_corr2d().
 - Fixed a bug which prevented the use of an individual color palette in
