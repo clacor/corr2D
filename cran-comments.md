@@ -1,7 +1,7 @@
 ## Test environments
 * local Windows 7 SP1 install, R 3.3.2
 * win-builder (devel and release)
-* ubuntu 12.04 (on travis-ci), R 3.2.5, R 3.3.2 and devel
+* ubuntu 12.04 (on travis-ci), R 3.2.5, R 3.3.1 and devel
 
 ## R CMD check results
 There were no ERRORs or WARNINGs.
