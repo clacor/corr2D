@@ -17,4 +17,3 @@ Six preprocessed FT-Raman spectra of a self-healing polymer.
     temperature in degree Celsius, while the column names show the relative
     wavenumber.
 }
-

@@ -1,3 +1,8 @@
+# corr2D 0.2.0
+- Added 2D codistibution analysis to the packages functions. Function uses
+    the approach described by I. Noda (2014)
+    <DOI:10.1016/j.molstruc.2014.01.024>.
+
 # corr2D 0.1.12
 - Rewrote the function plot_corr2d(): The graphical parameters specified at
     "..." are now partly transferred to all parts of the plot, not just the

@@ -90,4 +90,3 @@ I. Noda (1993) <DOI:10.1366/0003702934067694>\cr
 For plotting of the resulting list containing the 2D correlation
     spectra see \code{\link{plot_corr2d}} and \code{\link{plot_corr2din3d}}.
 }
-

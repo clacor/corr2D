@@ -85,4 +85,3 @@ For interpretation rules see:
 \seealso{
 See \code{\link{plot_corr2din3d}} for 3D plots.
 }
-

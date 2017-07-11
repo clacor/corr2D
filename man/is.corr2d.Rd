@@ -28,4 +28,3 @@ The function uses the \code{\link{inherits}} function.
     is.corr2d(2) 
 
 }
-

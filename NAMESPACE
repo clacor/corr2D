@@ -2,6 +2,7 @@
 
 S3method(plot,corr2d)
 S3method(summary,corr2d)
+export(codis2d)
 export(corr2d)
 export(is.corr2d)
 export(plot_corr2d)

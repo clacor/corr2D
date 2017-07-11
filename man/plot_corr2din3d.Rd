@@ -59,4 +59,3 @@ For the synchronous correlation spectrum the real component (\code{Re})
 See \code{\link{plot_corr2d}} for 2D plots.
     See \code{\link[fields]{drape.plot}} for information on the plot function.
 }
-

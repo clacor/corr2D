@@ -64,4 +64,3 @@ The simulation assumes 2 spectral signals for each of the 3 species A, B
 The default values are inspired by:
     I. Noda (2014) <DOI:10.1016/j.molstruc.2014.01.024>
 }
-
