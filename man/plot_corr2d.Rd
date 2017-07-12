@@ -7,7 +7,10 @@
 plot_corr2d(Obj, what = Re(Obj$FT), specx = Obj$Ref1, specy = Obj$Ref2,
   xlim = NULL, ylim = NULL, xlab = expression(nu[1]),
   ylab = expression(nu[2]), Contour = TRUE, axes = 3, Legend = TRUE,
-  N = 20, zlim = NULL, Cutout = NULL, ...)
+  N = 20, zlim = NULL, Cutout = NULL, col = par("col"),
+  lwd = par("lwd"), lwd.axis = NULL, lwd.spec = NULL, cex.leg = NULL,
+  at.xaxs = NULL, label.xaxs = TRUE, at.yaxs = NULL, label.yaxs = TRUE,
+  line.xlab = 3.5, line.ylab = 3.5, ...)
 }
 \arguments{
 \item{Obj}{List from \code{corr2d} containing the 2D correlation data.}
@@ -48,13 +51,51 @@ plot.}
 not be plotted. Use with care, because this can generate misleading
 2D plots.}
 
+\item{col}{A specification for the plotting color of the reference spectra
+(top and left), axes, axes ticks and the central plot surrounding box.
+See \code{\link[graphics]{par}} and \code{\link[graphics]{contour}} for
+additional information.}
+
+\item{lwd}{A numeric value which sets the line width in the contour plot. See
+\code{\link[graphics]{par}} and \code{\link[graphics]{contour}} for
+additional information.}
+
+\item{lwd.axis}{A numeric value which sets the line width for axes and the
+central plot surrounding box. See \code{\link[graphics]{par}} and
+\code{\link[graphics]{axis}} for additional information.}
+
+\item{lwd.spec}{A numeric value which sets the line width in the reference
+spectra on top and to the left. See \code{\link[graphics]{par}} and 
+\code{\link[graphics]{plot.default}} for additional information.}
+
+\item{cex.leg}{A numerical value giving the amount by which numbers at the
+legend should be magnified. See \code{\link[graphics]{par}} and 
+\code{\link[fields]{image.plot}} for additional information.}
+
+\item{at.xaxs, at.yaxs}{The points at which tick-marks are to be drawn at the
+x- and y-axis, respectively. See \code{\link[graphics]{axis}} for
+additional information.}
+
+\item{label.xaxs, label.yaxs}{This can either be a logical value specifying
+whether (numerical) annotations are to be made at the tickmarks of the
+x- and y-axis, or a character or expression vector of labels to be
+placed at the tickpoints of the x- and y-axis. See
+\code{\link[graphics]{axis}} for additional information.}
+
+\item{line.xlab, line.ylab}{Numeric value on which MARgin line the x- and
+y-label is plotted, respectively, starting at 0 counting outwards. See
+\code{\link[graphics]{mtext}} for additional information.}
+
 \item{...}{Additional arguments either passed to
 \code{\link[graphics]{image}} or \code{\link[graphics]{contour}}. Can
 include graphics parameters \code{\link[graphics]{par}} which are in
-part also used by other functions. This includes \code{lwd} (sets line
-width for the 1D plots on the sides, the central 2D contour plot, the
-axes and the surronding box), \code{cex} (influences axes and thier
-labels) and \code{cex.axis} (influences legend labels).}
+part also used by other functions. This includes \code{cex.axis}
+(influences axes and thier label magnification), \code{cex.lab}
+(influences label magnification), \code{col.axis} (influences axes
+label color), \code{col.lab} (influences label color),
+\code{font.axis} (influences axes label font), \code{font.lab}
+(influences label font) and \code{lty} (influences line type for contour
+plot).}
 }
 \description{
 \code{plot_corr2d} plots two-dimensional correlation spectra either
@@ -76,6 +117,12 @@ For the synchronous correlation spectrum the real component (\code{Re})
     
     plot_corr2d(twod, xlab = expression(paste("relative Wavenumber" / cm^-1)),
                       ylab = expression(paste("relative Wavenumber" / cm^-1)))
+                      
+    plot_corr2d(twod, at.xaxs = c(1560, 1585, 1610),
+                label.xaxs = c(1560, 1585, 1610),
+                col = 2, lwd = 3, col.axis = 3, col.lab = 4, Legend = FALSE,
+                cex.lab = 3, xlab = "Large x label", ylab = "Large y label",
+                line.xlab = 5, line.ylab = 5)
 
 }
 \references{

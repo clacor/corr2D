@@ -38,14 +38,44 @@
 #'     plot.
 #' @param Cutout Numeric vector with two values defining which z-values should
 #'     not be plotted. Use with care, because this can generate misleading
-#'     2D plots. 
+#'     2D plots.
+#' @param col A specification for the plotting color of the reference spectra
+#'     (top and left), axes, axes ticks and the central plot surrounding box.
+#'     See \code{\link[graphics]{par}} and \code{\link[graphics]{contour}} for
+#'     additional information.
+#' @param lwd A numeric value which sets the line width in the contour plot. See
+#'     \code{\link[graphics]{par}} and \code{\link[graphics]{contour}} for
+#'     additional information.
+#' @param lwd.axis A numeric value which sets the line width for axes and the
+#'     central plot surrounding box. See \code{\link[graphics]{par}} and
+#'     \code{\link[graphics]{axis}} for additional information.
+#' @param lwd.spec A numeric value which sets the line width in the reference
+#'     spectra on top and to the left. See \code{\link[graphics]{par}} and 
+#'     \code{\link[graphics]{plot.default}} for additional information.
+#' @param cex.leg A numerical value giving the amount by which numbers at the
+#'     legend should be magnified. See \code{\link[graphics]{par}} and 
+#'     \code{\link[fields]{image.plot}} for additional information.
+#' @param at.xaxs,at.yaxs The points at which tick-marks are to be drawn at the
+#'     x- and y-axis, respectively. See \code{\link[graphics]{axis}} for
+#'     additional information.
+#' @param label.xaxs,label.yaxs This can either be a logical value specifying
+#'     whether (numerical) annotations are to be made at the tickmarks of the
+#'     x- and y-axis, or a character or expression vector of labels to be
+#'     placed at the tickpoints of the x- and y-axis. See
+#'     \code{\link[graphics]{axis}} for additional information.
+#' @param line.xlab,line.ylab Numeric value on which MARgin line the x- and
+#'     y-label is plotted, respectively, starting at 0 counting outwards. See
+#'     \code{\link[graphics]{mtext}} for additional information.
 #' @param ... Additional arguments either passed to
 #'     \code{\link[graphics]{image}} or \code{\link[graphics]{contour}}. Can
 #'     include graphics parameters \code{\link[graphics]{par}} which are in
-#'     part also used by other functions. This includes \code{lwd} (sets line
-#'     width for the 1D plots on the sides, the central 2D contour plot, the
-#'     axes and the surronding box), \code{cex} (influences axes and thier
-#'     labels) and \code{cex.axis} (influences legend labels).
+#'     part also used by other functions. This includes \code{cex.axis}
+#'     (influences axes and thier label magnification), \code{cex.lab}
+#'     (influences label magnification), \code{col.axis} (influences axes
+#'     label color), \code{col.lab} (influences label color),
+#'     \code{font.axis} (influences axes label font), \code{font.lab}
+#'     (influences label font) and \code{lty} (influences line type for contour
+#'     plot).
 #'
 #' @references For interpretation rules see:
 #'     I. Noda (2006) <DOI:10.1016/j.molstruc.2005.12.060>
@@ -60,6 +90,12 @@
 #'     
 #'     plot_corr2d(twod, xlab = expression(paste("relative Wavenumber" / cm^-1)),
 #'                       ylab = expression(paste("relative Wavenumber" / cm^-1)))
+#'                       
+#'     plot_corr2d(twod, at.xaxs = c(1560, 1585, 1610),
+#'                 label.xaxs = c(1560, 1585, 1610),
+#'                 col = 2, lwd = 3, col.axis = 3, col.lab = 4, Legend = FALSE,
+#'                 cex.lab = 3, xlab = "Large x label", ylab = "Large y label",
+#'                 line.xlab = 5, line.ylab = 5)
 #'
 #' @export
 #' @importFrom grDevices rgb
@@ -71,7 +107,11 @@ plot_corr2d <-
              xlim = NULL, ylim = NULL,
              xlab = expression(nu[1]), ylab = expression(nu[2]),
              Contour = TRUE, axes = 3, Legend = TRUE, N = 20,
-             zlim = NULL, Cutout = NULL, ...)
+             zlim = NULL, Cutout = NULL, col = par("col"), lwd = par("lwd"), 
+             lwd.axis = NULL, lwd.spec = NULL, cex.leg = NULL,
+             at.xaxs = NULL, label.xaxs = TRUE,
+             at.yaxs = NULL, label.yaxs = TRUE,
+             line.xlab = 3.5, line.ylab = 3.5, ...)
     {
         # check user input for errors -----------------------------------------
         if (!is.null(xlim)) {
@@ -123,8 +163,11 @@ plot_corr2d <-
         graphics::plot.new()
         
         # get graphics parameters from "..."
-        getparm <- list(...)
+        getparm <- list(..., lwd = lwd, col = col)
         graphparm <- utils::modifyList(par(), getparm)
+        if(is.null(lwd.axis)) {lwd.axis <- graphparm$lwd + 1}
+        if(is.null(lwd.spec)) {lwd.spec <- graphparm$lwd}
+        if(is.null(cex.leg)) {cex.leg <- graphparm$cex.axis}
         
         # calculate x- and y-window range -------------------------------------
         if (is.null(xlim)) {
@@ -157,16 +200,17 @@ plot_corr2d <-
             screen(1)
             par(xaxt = "n", yaxt = "n", mar = c(0, 0, 0, 0), bty = "n", yaxs = "i")
             plot.default(x = max(specy[Which2]) - specy[Which2],
-                         y = Obj$Wave2[Which2],
-                         type = "l", lwd = graphparm$lwd + 1, ann = FALSE)
+                         y = Obj$Wave2[Which2], col = graphparm$col, 
+                         type = "l", lwd = lwd.spec, ann = FALSE)
         }
         
         if (!is.null(specx)) {
             # Spec top -------------------------------------------------------
             screen(2)
             par(xaxt = "n", yaxt = "n", mar = c(0, 0, 0, 0), bty = "n", xaxs = "i")
-            plot.default(x = Obj$Wave1[Which1], y = specx[Which1],
-                         type = "l", lwd = graphparm$lwd + 1, ann = FALSE)
+            plot.default(x = Obj$Wave1[Which1],
+                         y = specx[Which1], col = graphparm$col,
+                         type = "l", lwd = lwd.spec, ann = FALSE)
         }
         
         # main Part -----------------------------------------------------------
@@ -199,26 +243,36 @@ plot_corr2d <-
         par(xaxt = "n", yaxt = "n", mar = c(0, 0, 0, 0), bty = "n", xaxs = "i", yaxs = "i")
         if (Contour == TRUE){
             graphics::contour(x = Obj$Wave1[Which1], y = Obj$Wave2[Which2], z = what[Which1, Which2],
-                              col = COL, levels = Where, zlim = zlim, drawlabels = FALSE, ...)
+                              col = COL, levels = Where, zlim = zlim, drawlabels = FALSE,
+                              lwd = graphparm$lwd, ...)
         } else {
             graphics::image(x = Obj$Wave1[Which1], y = Obj$Wave2[Which2], z = what[Which1, Which2],
-                            col = COL, xlab = "", ylab = "", zlim = zlim, ...)
+                            col = COL, xlab = "", ylab = "", zlim = zlim,
+                            lwd = graphparm$lwd, ...)
         }
         
         abline(a = 0, b = 1, col = rgb(red = 1, green = 1, blue = 1, alpha = 0.5),
             lwd = graphparm$lwd)
         par(xpd = NA, xaxt = "s", yaxt = "s", xaxs = "i", yaxs = "i", cex = graphparm$cex,
             mar = c(0, 0, 0, 0))
-        box(which = "figure", lwd = graphparm$lwd)
+        box(which = "figure", lwd = lwd.axis, col = graphparm$col)
         if ((axes == 1) | (axes == 3)){
-            axis(side = 1, lwd = graphparm$lwd)
+            axis(side = 1, at = at.xaxs, labels = label.xaxs, lwd = lwd.axis,
+                 col = graphparm$col, col.ticks = graphparm$col,
+                 cex.axis = graphparm$cex.axis, col.axis = graphparm$col.axis,
+                 font.axis = graphparm$font.axis)
         }
         if ((axes == 2) | (axes == 3)){
-            axis(side = 4, las = 2, lwd = graphparm$lwd)
+            axis(side = 4, las = 2, at = at.yaxs, labels = label.yaxs,
+                 lwd = lwd.axis, col = graphparm$col, col.ticks = graphparm$col,
+                 cex.axis = graphparm$cex.axis, col.axis = graphparm$col.axis,
+                 font.axis = graphparm$font.axis)
         }
         
-        mtext(side = 1, xlab, line = 3.5, cex = graphparm$cex * 1.3, lwd = graphparm$lwd)
-        mtext(side = 4, ylab, line = 3.5, cex = graphparm$cex * 1.3, lwd = graphparm$lwd)
+        mtext(side = 1, xlab, line = line.xlab, cex = graphparm$cex.lab * 1.3,
+              col = graphparm$col.lab, font = graphparm$font.lab)
+        mtext(side = 4, ylab, line = line.ylab, cex = graphparm$cex.lab * 1.3,
+              col = graphparm$col.lab, font = graphparm$font.lab)
         
         if(Legend == TRUE){
             # top right -------------------------------------------------------
@@ -231,14 +285,14 @@ plot_corr2d <-
                     smallplot = c(0.15, 0.3, 0.2, 0.8), col = COL,
                     axis.args = list(at = quantile(Where, prob = c(0.1, 0.9)),
                         labels = format(x = quantile(Where, prob = c(0.1, 0.9)),
-                        digit = 2, scientific = TRUE), cex.axis = graphparm$cex.axis),
+                        digit = 2, scientific = TRUE), cex.axis = cex.leg),
                     zlim = zlim, graphics.reset = TRUE)
             } else {
                 fields::image.plot(z = what[Which1, Which2],legend.only = TRUE,
                     smallplot = c(0.15, 0.3, 0.2, 0.8), col = COL,
                     axis.args = list(at = range(what[Which1, Which2]),
                         labels = format(x = range(what[Which1, Which2]),
-                        digits = 2, scientific = TRUE), cex.axis = graphparm$cex.axis),
+                        digits = 2, scientific = TRUE), cex.axis = cex.leg),
                     graphics.reset = TRUE)
             }
         

@@ -2,6 +2,13 @@
 - Added 2D codistibution analysis to the packages functions. Function uses
     the approach described by I. Noda (2014)
     <DOI:10.1016/j.molstruc.2014.01.024>.
+- Rewrote the function plot_corr2d() for better control about the plot
+    appearence. Introduced the graphical parameters "lwd", "lwd.axis",
+    "lwd.spec", "col", "col.axis", "col.lab", "cex.axis", "cex.lab", "cex.leg",
+    "font.axis" and "font.lab" which are/are derived from "par".
+    "at.xaxs"/"at.yaxs" and "label.xaxs"/"label.yaxs" allow control over the
+    axes ticks and thier labels. "line.xlab"/"line.ylab" control the position
+    of the axes label.
 
 # corr2D 0.1.12
 - Rewrote the function plot_corr2d(): The graphical parameters specified at
