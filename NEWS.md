@@ -1,0 +1,54 @@
+#corr2D 0.3.0
+- Added 2T2D correlation analysis to the package. Function uses the approach
+    described by I. Noda (2014) <DOI:10.1016/j.molstruc.2014.01.024>.
+
+# corr2D 0.2.0
+- Added 2D codistibution analysis to the packages functions. Function uses
+    the approach described by I. Noda (2014)
+    <DOI:10.1016/j.molstruc.2014.01.024>.
+- Rewrote the function plot_corr2d() for better control about the plot
+    appearence. Introduced the graphical parameters "lwd", "lwd.axis",
+    "lwd.spec", "col", "col.axis", "col.lab", "cex.axis", "cex.lab", "cex.leg",
+    "font.axis" and "font.lab" which are/are derived from "par".
+    "at.xaxs"/"at.yaxs" and "label.xaxs"/"label.yaxs" allow control over the
+    axes ticks and thier labels. "line.xlab"/"line.ylab" control the position
+    of the axes label.
+
+# corr2D 0.1.12
+- Rewrote the function plot_corr2d(): The graphical parameters specified at
+    "..." are now partly transferred to all parts of the plot, not just the
+    main screen.
+- Cleaned up the image.plot() code inside plot_corr2d().
+- Fixed a bug which prevented the use of an individual color palette in
+    plot_corr2din3d().
+- Changed the default color palette in plot_corr2din3d() from
+    fields::timcolors() to colorspace::diverge_hcl(). This change should help
+    to improve the default graphics quality.
+
+# corr2D 0.1.11
+- Corrected the default value for the normalization factor. It's now the number
+    of perturbation variables which is NROW() of Mat1.
+- Added error massages to all functions.
+- Reworte the function sim2ddata() to allow to set C and Camp NULL. In that
+    case only the first order reaction A -> B will be simulated and sampled.
+
+# corr2D 0.1.10
+- Added the function sim2ddata to simulate artificial data.
+- Fixed the plotting of the reference spectra on the 2D correlation spectra.
+    Before the reference spectra used an arbitrary x-axis. Now they use their
+    correct spectral variables for plotting. 2D correlation peaks should now
+    align with their 1D counterparts in the reference spectra.
+- Rewrote the interpolation of the perturbation variables to no longer use the
+    ineffective cbind in a for loop. Instead apply and sapply are now used
+    instead.
+- The interpolated perturbation variables are now saved when the perturbation
+    values get interpolated.
+- Cleaned up some left/right confusions in the documentation of plot_corr2d.
+
+# corr2D 0.1.9
+- Package is released on CRAN
+
+## Known Bugs
+- A new plot after a call of plot_corr2d() is plotted inside the main part.
+    It's a consequence of keeping the split.screen of the main part active
+    for interactive data readout and manipulation.
