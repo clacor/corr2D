@@ -1,7 +1,10 @@
+## Comments
+* The e-mail address of the package maintainer has changed and thus has been updated.
+
 ## Test environments
-* local Windows 7 SP1 install, R 3.4.1
+* local Windows 10 Enterprise install, R 3.5.1
 * win-builder (devel and release)
-* ubuntu 12.04 (on travis-ci), R 3.3.3, R 3.4.0 and devel
+* ubuntu 12.04 (on travis-ci), R 3.4.4, R 3.5.1 and devel
 
 ## R CMD check results
 There were no ERRORs or WARNINGs.

@@ -60,7 +60,6 @@
 #' @references 
 #'     I. Noda (2014) <DOI:10.1016/j.molstruc.2014.01.024>
 #'     
-#' 
 #' @seealso For plotting of the resulting list containing the 2D codistribution
 #'     spectra see \code{\link{plot_corr2d}} and \code{\link{plot_corr2din3d}}.
 #' 

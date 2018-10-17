@@ -1,0 +1,18 @@
+citHeader("To cite corr2D in publications use:")
+
+citEntry(entry = "Article",
+  title        = "{corr2D} - Implementation of Two-Dimensional Correlation Analysis in R",
+  author       = personList(as.person("Robert Geitner"),
+                   as.person("Robby Fritzsch"),
+                   as.person("Juergen Popp"),
+                   as.person("Thomas W. Bocklitz")),
+  journal      = "Journal of Statistical Software",
+  year         = "2018",
+  url          = "https://arxiv.org/abs/1808.00685",
+
+  textVersion  =
+  paste("Robert Geitner, Robby Fritzsch, Juergen Popp, Thomas W. Bocklitz (2018).",
+        "corr2D - Implementation of Two-Dimensional Correlation Analysis in R.",
+        "Journal of Statistical Software.",
+        "URL https://arxiv.org/abs/1808.00685.")
+)

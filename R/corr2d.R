@@ -226,7 +226,7 @@ corr2d <-
         FT <- matrix(Norm * parallel::parCapply(cl, ft1, get("%*%"), Conj(ft2)), NCOL(ft1), NCOL(ft2), byrow = TRUE)
         cat(c(format(Sys.time(), "%X -"), "Done\n"))
         
-        Obj<-list(FT = FT, Ref1 = Ref1, Ref2 = Ref2,
+        Obj <- list(FT = FT, Ref1 = Ref1, Ref2 = Ref2,
                   Wave1 = Wave1, Wave2 = Wave2,
                   Time = Time, Het = Het)
         
