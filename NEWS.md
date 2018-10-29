@@ -1,4 +1,4 @@
-#corr2D 0.3.0
+# corr2D 0.3.0
 - Added 2T2D correlation analysis to the package. Function uses the approach
     described by I. Noda (2018) <DOI:10.1016/j.molstruc.2018.01.091>.
 - A freshly published paper at The Journal of Statistical Software was added
