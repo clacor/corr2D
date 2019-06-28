@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Two-dimensional codistribution spectroscopy.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for codis2d {corr2D}"><tr><td>codis2d {corr2D}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Two-dimensional codistribution spectroscopy.</h2>
+
+<h3>Description</h3>
+
+<p><code>codis2d</code> calculates the synchronous and asynchronous codistribution
+spectra.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+codis2d(Mat, Ref = NULL, Wave = NULL, Time = NULL,
+  Int = stats::splinefun, N = 2^ceiling(log2(NROW(Mat))),
+  Norm = 1/(NROW(Mat) - 1), scaling = 0,
+  corenumber = parallel::detectCores(), preview = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Mat</code></td>
+<td>
+<p>Numeric matrix containing the data which will be correlated;
+'<em>spectral variable</em>' by columns and '<em>perturbation variables</em>'
+by rows.</p>
+</td></tr>
+<tr valign="top"><td><code>Ref</code></td>
+<td>
+<p>Numeric vector containing a single spectrum, which will be
+subtracted from <code>Mat</code> to generate dynamic spectra for 2D
+correlation analysis. Default is <code>NULL</code> in which case the
+<code>colMeans()</code> of <code>Mat</code> is used as reference. The length of
+<code>Ref</code> needs to be equal to the number of columns in <code>Mat</code>.
+2D codistribution spectroscopy is only strictly defined using the
+perturbation-mean spectrum as refernece spectrum. Thus, any deviation
+from this definition can lead to unexpected results.</p>
+</td></tr>
+<tr valign="top"><td><code>Wave</code></td>
+<td>
+<p>Numeric vector containing the spectral variable. Needs to be
+specified if column names of <code>Mat</code> are undefined.</p>
+</td></tr>
+<tr valign="top"><td><code>Time</code></td>
+<td>
+<p>Numeric vector containing the perturbation variables. If
+specified, <code>Mat</code> will be interpolated to <code>N</code> equally spaced
+perturbation varibales using <code>Int</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>Int</code></td>
+<td>
+<p>Function specifying how the dataset will be interpolated to give
+<code>N</code> equally spaced perturbation variables. <code><a href="../../stats/html/splinefun.html">splinefun</a></code>
+(default) or <code><a href="../../stats/html/approxfun.html">approxfun</a></code> can for example be used.</p>
+</td></tr>
+<tr valign="top"><td><code>N</code></td>
+<td>
+<p>Positive, non-zero integer specifying how many equally spaced
+perturbation variables should be interpolated using <code>Int</code>. <code>N</code>
+should be higher than 4. <code>corr2d</code> is fastest if <code>N</code> is a power
+of 2.</p>
+</td></tr>
+<tr valign="top"><td><code>Norm</code></td>
+<td>
+<p>A number specifying how the correlation matrix should be
+normalized.</p>
+</td></tr>
+<tr valign="top"><td><code>scaling</code></td>
+<td>
+<p>Positive real number used as exponent when scaling the dataset
+with its standard deviation. Defaults to 0 meaning no scaling. 0.5
+(<em>Pareto scaling</em>) and 1 (<em>Pearson scaling</em>) are commonly used
+to enhance weak correlations relative to strong correlations. 2D
+codistribution spectroscopy is only strictly defined without the usage
+of any scaling techniques. Thus, any deviation from this definition can
+lead to unexpected results.</p>
+</td></tr>
+<tr valign="top"><td><code>corenumber</code></td>
+<td>
+<p>Positive, non-zero integer specifying how many CPU cores
+should be used for parallel fft computation.</p>
+</td></tr>
+<tr valign="top"><td><code>preview</code></td>
+<td>
+<p>Logical: Should a 3D preview of the asynchronous codistribution
+spectrum be drawn at the end? Uses <code><a href="../../rgl/html/persp3d.html">persp3d</a></code> from <span class="pkg">rgl</span>
+package.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>codis2d</code> calculates the the synchronous 2D correlation spectrum and
+uses the 2D spectrum to calculate the synchronous and asynchronous
+codistribution spectra. For parallelization the
+<code><a href="../../parallel/html/parCapply.html">parCapply</a></code> function is used. Large input matrices
+(&gt; 4000 columns) can lead to long calculation times depending on the
+number of cores used. Also note that the resulting matrix can become
+very large, adjust the RAM limit with <code><a href="../../utils/html/memory.limit.html">memory.limit</a></code>
+accordingly. For a detailed description of the underlying math see
+references.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>codis2D</code> returns a list of class &quot;corr2d&quot; containing the complex
+codistribution matrix (<code>$FT</code>), the synchronous correlation spectrum
+($corr), the used reference spectrum <code>$Ref1</code> and <code>$Ref2</code>, the 
+spectral variables <code>$Wave1</code> and <code>$Wave2</code> as well as the
+(interpolated) perturbation variables (<code>$Time</code>).
+</p>
+
+
+<h3>References</h3>
+
+<p>I. Noda (2014) &lt;DOI:10.1016/j.molstruc.2014.01.024&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p>For plotting of the resulting list containing the 2D codistribution
+spectra see <code><a href="plot_corr2d.html">plot_corr2d</a></code> and <code><a href="plot_corr2din3d.html">plot_corr2din3d</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+    testdata &lt;- sim2ddata(C = NULL, Camp = NULL)
+    codis &lt;- codis2d(testdata, corenumber = 1)
+    
+    plot_corr2d(codis, Im(codis$FT),
+                xlab = expression(paste("Wavenumber" / cm^-1)),
+                ylab = expression(paste("Wavenumber" / cm^-1)))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>corr2D</em> version 0.4.0.9002 <a href="00Index.html">Index</a>]</div>
+</body></html>

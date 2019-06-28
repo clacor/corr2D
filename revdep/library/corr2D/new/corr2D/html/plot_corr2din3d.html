@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: 3D plot of two-dimensional correlation spectra.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot_corr2din3d {corr2D}"><tr><td>plot_corr2din3d {corr2D}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>3D plot of two-dimensional correlation spectra.</h2>
+
+<h3>Description</h3>
+
+<p><code>plot_corr2din3d</code> plots two-dimensional correlation spectra as an 3D surface.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plot_corr2din3d(Mat, specx = NULL, specy = NULL, scalex = NULL,
+  scaley = NULL, Col = colorspace::diverge_hcl(64, h = c(240, 0), c =
+  100, l = c(20, 100), power = 0.4), reduce = NULL, zlim = NULL,
+  projection = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Mat</code></td>
+<td>
+<p>Real numeric matrix containing the z-values to plot.</p>
+</td></tr>
+<tr valign="top"><td><code>specx, specy</code></td>
+<td>
+<p>Numeric vector containing the data, that will be
+plotted at the x and y axis. Can be any data and does not need to have
+the same dimensions as <code>Mat</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>scalex, scaley</code></td>
+<td>
+<p>A real number which describes how <code>specx</code>
+(or <code>specy</code>) get scaled. Positive numbers lead to a spectrum
+plotted inside the box, while negative numbers lead to a spectrum
+plotted outside the box.</p>
+</td></tr>
+<tr valign="top"><td><code>Col</code></td>
+<td>
+<p>Vector containing colors used to plot the 3D plot and the
+respective projection.</p>
+</td></tr>
+<tr valign="top"><td><code>reduce</code></td>
+<td>
+<p>Non-zero rational number describing how to
+<code><a href="../../mmand/html/resample.html">resample</a></code> the data values. Can reduce the 
+computational demand and can be used for fast previews.</p>
+</td></tr>
+<tr valign="top"><td><code>zlim</code></td>
+<td>
+<p>Numeric vector with two values indicating the z-range of
+the 3D plot.</p>
+</td></tr>
+<tr valign="top"><td><code>projection</code></td>
+<td>
+<p>Logical: Should a 2D projection of the 3D surface
+be plotted a the bottom of the box?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="../../fields/html/drape.plot.html">drape.plot</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For the synchronous correlation spectrum the real component (<code>Re</code>)
+of the complex correlation matrix must be plotted. The asynchronous
+spectrum is the respective imaginary component (<code>Im</code>).
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See <code><a href="plot_corr2d.html">plot_corr2d</a></code> for 2D plots.
+See <code><a href="../../fields/html/drape.plot.html">drape.plot</a></code> for information on the plot function.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+   data(FuranMale, package = "corr2D")
+   twod &lt;- corr2d(FuranMale, Ref1 = FuranMale[1, ], corenumber = 1)
+   
+   plot_corr2din3d(Mat = Re(twod$FT), specx = twod$Ref1,
+       specy = twod$Ref1, reduce = 2, scalex = -175, scaley = -175,
+       zlim = c(-1.5, 2.2)*10^-3, projection = FALSE,
+       border = gray(0.2), theta = 25, phi = 15, add.legend = FALSE,
+       Col = fields::tim.colors(64))
+   
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>corr2D</em> version 0.4.0.9002 <a href="00Index.html">Index</a>]</div>
+</body></html>

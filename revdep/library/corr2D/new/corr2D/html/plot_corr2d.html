@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot two-dimensional correlation spectra.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot_corr2d {corr2D}"><tr><td>plot_corr2d {corr2D}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot two-dimensional correlation spectra.</h2>
+
+<h3>Description</h3>
+
+<p><code>plot_corr2d</code> plots two-dimensional correlation spectra either
+as an image or a contour plot. Red color indicates positive
+correlations, while blue color shows negative ones.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plot_corr2d(Obj, what = Re(Obj$FT), specx = Obj$Ref1,
+  specy = Obj$Ref2, xlim = NULL, ylim = NULL,
+  xlab = expression(nu[1]), ylab = expression(nu[2]), Contour = TRUE,
+  axes = 3, Legend = TRUE, N = 20, zlim = NULL, Cutout = NULL,
+  col = par("col"), lwd = par("lwd"), lwd.axis = NULL,
+  lwd.spec = NULL, cex.leg = NULL, at.xaxs = NULL,
+  label.xaxs = TRUE, at.yaxs = NULL, label.yaxs = TRUE,
+  line.xlab = 3.5, line.ylab = 3.5, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Obj</code></td>
+<td>
+<p>List from <code>corr2d</code> containing the 2D correlation data.</p>
+</td></tr>
+<tr valign="top"><td><code>what</code></td>
+<td>
+<p>Real numeric matrix containing the z-values that should be plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>specx, specy</code></td>
+<td>
+<p>Numeric vector containing the data that should be plotted
+on top (<code>specx</code>) and/or on the left (<code>specy</code>) of
+the 2D spectrum. <code>Mat</code>, <code>specx</code> and/or <code>specy</code> should
+have the same dimensions, respectively. If <code>NULL</code> nothing will
+be plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim, ylim</code></td>
+<td>
+<p>Numeric vector with two values indicating the borders
+of the 2D plot. Also truncates <code>specx</code> and/or <code>specy</code> to
+match the new plot range.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab, ylab</code></td>
+<td>
+<p>Character or expression containing the text that will
+be plotted on the bottom (<code>xlab</code>) and/or to the right
+(<code>ylab</code>) of the 2D plot. Labels can be suppressed with <code>NA</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>Contour</code></td>
+<td>
+<p>Logical: Should a contour (<code>TRUE</code>) or image
+(<code>FALSE</code>) be drawn?</p>
+</td></tr>
+<tr valign="top"><td><code>axes</code></td>
+<td>
+<p>Integer ranging from 0 to 3. Should the axis of the 2D plot
+be drawn? &quot;0&quot; means no axes, &quot;1&quot; only bottom axis, &quot;2&quot; only right axis and
+&quot;3&quot; both axes are drawn.</p>
+</td></tr>
+<tr valign="top"><td><code>Legend</code></td>
+<td>
+<p>Logical: Should a color legend be plotted in the top
+right corner?</p>
+</td></tr>
+<tr valign="top"><td><code>N</code></td>
+<td>
+<p>Positive, non-zero integer indicating how many contour or image
+levels should be plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>zlim</code></td>
+<td>
+<p>Numeric vector with two values defining the z-range of the 2D
+plot.</p>
+</td></tr>
+<tr valign="top"><td><code>Cutout</code></td>
+<td>
+<p>Numeric vector with two values defining which z-values should
+not be plotted. Use with care, because this can generate misleading
+2D plots.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>A specification for the plotting color of the reference spectra
+(top and left), axes, axes ticks and the central plot surrounding box.
+See <code><a href="../../graphics/html/par.html">par</a></code> and <code><a href="../../graphics/html/contour.html">contour</a></code> for
+additional information.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>A numeric value which sets the line width in the contour plot. See
+<code><a href="../../graphics/html/par.html">par</a></code> and <code><a href="../../graphics/html/contour.html">contour</a></code> for
+additional information.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd.axis</code></td>
+<td>
+<p>A numeric value which sets the line width for axes and the
+central plot surrounding box. See <code><a href="../../graphics/html/par.html">par</a></code> and
+<code><a href="../../graphics/html/axis.html">axis</a></code> for additional information.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd.spec</code></td>
+<td>
+<p>A numeric value which sets the line width in the reference
+spectra on top and to the left. See <code><a href="../../graphics/html/par.html">par</a></code> and 
+<code><a href="../../graphics/html/plot.default.html">plot.default</a></code> for additional information.</p>
+</td></tr>
+<tr valign="top"><td><code>cex.leg</code></td>
+<td>
+<p>A numerical value giving the amount by which numbers at the
+legend should be magnified. See <code><a href="../../graphics/html/par.html">par</a></code> and 
+<code><a href="../../fields/html/image.plot.html">image.plot</a></code> for additional information.</p>
+</td></tr>
+<tr valign="top"><td><code>at.xaxs, at.yaxs</code></td>
+<td>
+<p>The points at which tick-marks are to be drawn at the
+x- and y-axis, respectively. See <code><a href="../../graphics/html/axis.html">axis</a></code> for
+additional information.</p>
+</td></tr>
+<tr valign="top"><td><code>label.xaxs, label.yaxs</code></td>
+<td>
+<p>This can either be a logical value specifying
+whether (numerical) annotations are to be made at the tickmarks of the
+x- and y-axis, or a character or expression vector of labels to be
+placed at the tickpoints of the x- and y-axis. See
+<code><a href="../../graphics/html/axis.html">axis</a></code> for additional information.</p>
+</td></tr>
+<tr valign="top"><td><code>line.xlab, line.ylab</code></td>
+<td>
+<p>Numeric value on which MARgin line the x- and
+y-label is plotted, respectively, starting at 0 counting outwards. See
+<code><a href="../../graphics/html/mtext.html">mtext</a></code> for additional information.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments either passed to
+<code><a href="../../graphics/html/image.html">image</a></code> or <code><a href="../../graphics/html/contour.html">contour</a></code>. Can
+include graphics parameters <code><a href="../../graphics/html/par.html">par</a></code> which are in
+part also used by other functions. This includes <code>cex.axis</code>
+(influences axes and thier label magnification), <code>cex.lab</code>
+(influences label magnification), <code>col.axis</code> (influences axes
+label color), <code>col.lab</code> (influences label color),
+<code>font.axis</code> (influences axes label font), <code>font.lab</code>
+(influences label font) and <code>lty</code> (influences line type for contour
+plot).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For the synchronous correlation spectrum the real component (<code>Re</code>)
+of the complex correlation matrix must be plotted. The asynchronous
+spectrum is the respective imaginary component (<code>Im</code>).
+<code>Cutout</code> can be used to leave out smaller (noise) contributions,
+but should be used with care as it can be used to create misleading
+2D correlation plots. See references for interpretation rules (so
+called Noda rules).
+</p>
+
+
+<h3>References</h3>
+
+<p>For interpretation rules see:
+I. Noda (2006) &lt;DOI:10.1016/j.molstruc.2005.12.060&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See <code><a href="plot_corr2din3d.html">plot_corr2din3d</a></code> for 3D plots.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+    data(FuranMale, package = "corr2D")
+    twod &lt;- corr2d(FuranMale, Ref1 = FuranMale[1, ], corenumber = 1)
+    
+    plot_corr2d(twod, xlab = expression(paste("relative Wavenumber" / cm^-1)),
+                      ylab = expression(paste("relative Wavenumber" / cm^-1)))
+                      
+    plot_corr2d(twod, at.xaxs = c(1560, 1585, 1610),
+                label.xaxs = c(1560, 1585, 1610),
+                col = 2, lwd = 3, col.axis = 3, col.lab = 4, Legend = FALSE,
+                cex.lab = 3, xlab = "Large x label", ylab = "Large y label",
+                line.xlab = 5, line.ylab = 5)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>corr2D</em> version 0.4.0.9002 <a href="00Index.html">Index</a>]</div>
+</body></html>

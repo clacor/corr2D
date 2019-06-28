@@ -1,0 +1,11 @@
+FuranMale               FT-Raman spectra of furan maleimide based
+                        self-healing polymer
+codis2d                 Two-dimensional codistribution spectroscopy.
+corr2d                  Two-dimensional correlation analysis.
+corr2t2d                Two-trace two-dimensional (2T2D) correlation
+                        spectroscopy
+is.corr2d               Check for object class "corr2d"
+plot_corr2d             Plot two-dimensional correlation spectra.
+plot_corr2din3d         3D plot of two-dimensional correlation spectra.
+sim2ddata               Simulate kinetic data from two-step sequential
+                        first-order reactions

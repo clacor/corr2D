@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Two-dimensional correlation analysis.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for corr2d {corr2D}"><tr><td>corr2d {corr2D}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Two-dimensional correlation analysis.</h2>
+
+<h3>Description</h3>
+
+<p><code>corr2d</code> calculates the synchronous and asynchronous correlation
+spectra between <code>Mat1</code> and <code>Mat1</code> (homo correlation)
+or between <code>Mat1</code> and <code>Mat2</code> (hetero correlation).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+corr2d(Mat1, Mat2 = NULL, Ref1 = NULL, Ref2 = NULL, Wave1 = NULL,
+  Wave2 = NULL, Time = NULL, Int = stats::splinefun,
+  N = 2^ceiling(log2(NROW(Mat1))), Norm = 1/(pi * (NROW(Mat1) - 1)),
+  scaling = 0, corenumber = parallel::detectCores(), preview = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Mat1, Mat2</code></td>
+<td>
+<p>Numeric matrix containing the data which will be correlated;
+'<em>spectral variable</em>' by columns and '<em>perturbation variables</em>'
+by rows. For hetero correlations <code>Mat1</code> and <code>Mat2</code> must have
+the same number of rows.</p>
+</td></tr>
+<tr valign="top"><td><code>Ref1, Ref2</code></td>
+<td>
+<p>Numeric vector containing a single spectrum, which will be
+subtracted from <code>Mat1</code> (or <code>Mat2</code>, respectively) to generate dynamic spectra
+for 2D correlation analysis. Default is <code>NULL</code> in which case the <code>colMeans()</code>
+of <code>Mat1</code> (or <code>Mat2</code>, respectively) is used as reference. The length of <code>Ref1</code>
+(or <code>Ref2</code>) needs to be equal to the number of columns in <code>Mat1</code> (or <code>Mat2</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>Wave1, Wave2</code></td>
+<td>
+<p>Numeric vector containing the spectral variable. Needs to be
+specified if column names of <code>Mat1</code> (or <code>Mat2</code>) are undefined.</p>
+</td></tr>
+<tr valign="top"><td><code>Time</code></td>
+<td>
+<p>Numeric vector containing the perturbation variables. If specified, <code>Mat1</code>
+(and <code>Mat2</code> if given) will be interpolated to <code>N</code> equally spaced perturbation
+varibales using <code>Int</code> to speed up the fft algorithm.</p>
+</td></tr>
+<tr valign="top"><td><code>Int</code></td>
+<td>
+<p>Function specifying how the dataset will be interpolated to give
+<code>N</code> equally spaced perturbation variables. <code><a href="../../stats/html/splinefun.html">splinefun</a></code>
+(default) or <code><a href="../../stats/html/approxfun.html">approxfun</a></code> can for example be used.</p>
+</td></tr>
+<tr valign="top"><td><code>N</code></td>
+<td>
+<p>Positive, non-zero integer specifying how many equally spaced
+perturbation variables should be interpolated using <code>Int</code>. <code>N</code>
+should be higher than 4.<code>corr2d</code> is fastest if <code>N</code> is a power
+of 2.</p>
+</td></tr>
+<tr valign="top"><td><code>Norm</code></td>
+<td>
+<p>A number specifying how the correlation matrix should be
+normalized.</p>
+</td></tr>
+<tr valign="top"><td><code>scaling</code></td>
+<td>
+<p>Positive real number used as exponent when scaling the dataset
+with its standard deviation. Defaults to 0 meaning no scaling. 0.5
+(<em>Pareto scaling</em>) and 1 (<em>Pearson scaling</em>) are commonly used to enhance
+weak correlations relative to strong correlations.</p>
+</td></tr>
+<tr valign="top"><td><code>corenumber</code></td>
+<td>
+<p>Positive, non-zero integer specifying how many CPU cores
+should be used for parallel fft computation.</p>
+</td></tr>
+<tr valign="top"><td><code>preview</code></td>
+<td>
+<p>Logical: Should a 3D preview of the synchronous correlation
+spectrum be drawn at the end? Uses <code><a href="../../rgl/html/persp3d.html">persp3d</a></code> from <span class="pkg">rgl</span>
+package.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>corr2d</code> uses a parallel fast Fourier transformation
+(<code><a href="../../stats/html/fft.html">fft</a></code>) to calculate the complex correlation matrix.
+For parallelization the <code><a href="../../foreach/html/foreach.html">foreach</a></code> function is used.
+Large input matrices (&gt; 4000 columns) can lead to long calculation times
+depending on the number of cores used. Also note that the resulting
+matrix can become very large, adjust the RAM limit with
+<code><a href="../../utils/html/memory.limit.html">memory.limit</a></code> accordingly. For a detailed description
+of the underlying math see references.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>corr2D</code> returns a list of class &quot;corr2d&quot; containing the complex
+correlation matrix (<code>$FT</code>), the used reference spectra (<code>$Ref1</code>,
+<code>$Ref2</code>), the spectral variables (<code>$Wave1</code>, <code>$Wave2</code>), the
+Fourier transformed data (<code>$ft1</code>, <code>$ft2</code>), the (interpolated)
+perturbation variables (<code>$Time</code>) and logical variable (<code>$Het</code>)
+indicating if homo (<code>FALSE</code>) or hetero (<code>TRUE</code>) correlation was done.
+</p>
+
+
+<h3>References</h3>
+
+<p>I. Noda (1993) &lt;DOI:10.1366/0003702934067694&gt;<br />
+I. Noda (2012) &lt;DOI:10.1016/j.vibspec.2012.01.006&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p>For plotting of the resulting list containing the 2D correlation
+spectra see <code><a href="plot_corr2d.html">plot_corr2d</a></code> and <code><a href="plot_corr2din3d.html">plot_corr2din3d</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+    data(FuranMale, package = "corr2D")
+    twod &lt;- corr2d(FuranMale, Ref1 = FuranMale[1, ], corenumber = 1)
+    
+    plot_corr2d(twod, xlab = expression(paste("relative Wavenumber" / cm^-1)),
+                      ylab = expression(paste("relative Wavenumber" / cm^-1)))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>corr2D</em> version 0.4.0.9002 <a href="00Index.html">Index</a>]</div>
+</body></html>
