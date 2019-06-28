@@ -1,3 +1,13 @@
+# corr2D 0.4.0
+- Added internal 'testthat' tests to corr2D to easier check correlation results
+    during package development.
+- Added a default print() method for corr2d objects (plot.default() for now).
+- Changed plot_corr2d() to use plot() instead of plot.default() to enable
+    method dispatch.
+- Fixed a small error with the calculation of reference spectrum 2 (Ref2) if
+    reference spectrum 1 (Ref1) is not present (Thanks to Bettina Gruen).
+- Added
+
 # corr2D 0.3.0
 - Added 2T2D correlation analysis to the package. Function uses the approach
     described by I. Noda (2018) <DOI:10.1016/j.molstruc.2018.01.091>.
@@ -5,7 +15,7 @@
     as a vignette. This will be updated in the future to also include
     descriptions of new functions.
 - Added citation referencing the published paper at The Journal of Statistical
-    Software
+    Software.
 
 # corr2D 0.2.0
 - Added 2D codistibution analysis to the packages functions. Function uses

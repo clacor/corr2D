@@ -49,7 +49,8 @@
 #' @return \code{corr2D} returns a list of class "corr2d" containing the complex
 #'     correlation matrix (\code{$FT}), the used reference spectra (\code{$Ref1},
 #'     \code{$Ref2}), the spectral variables (\code{$Wave1}, \code{$Wave2}), the
-#'     (interpolated) perturbation variables (\code{$Time}) and logical variable (\code{$Het})
+#'     Fourier transformed data (\code{$ft1}, \code{$ft2}), the (interpolated)
+#'     perturbation variables (\code{$Time}) and logical variable (\code{$Het})
 #'     indicating if homo (\code{FALSE}) or hetero (\code{TRUE}) correlation was done.
 #' 
 #' @references 
@@ -185,12 +186,14 @@ corr2d <-
         if (is.null(Ref1)) {
             cat(c(format(Sys.time(), "%X -"), "using mean values as reference\n"))
             Ref1 <- colMeans(Mat1)
-            Ref2 <- colMeans(Mat2)
         }
         Mat1 <- sweep(Mat1, 2, Ref1, "-")
         if (Het == FALSE) {
             Mat2 <- Mat1
         } else {
+          if (is.null(Ref2)) {
+            Ref2 <- colMeans(Mat2)
+          }
             Mat2 <- sweep(Mat2, 2, Ref2, "-")
         }
         
@@ -212,22 +215,36 @@ corr2d <-
               "to obtain a", D1[2], "x", D2[2], "correlation matrix", "\n"))
         
         FT <- matrix(NA, NCOL(Mat1), NCOL(Mat2))
+        # Selection of fft elements
+        ftele1 <- if(NROW(Mat1) %% 2 == 0) {
+            1:(NROW(Mat1) - 1) %/% 2 + 1
+          } else {
+            1:(NROW(Mat1)) %/% 2 + 1
+          }
+        
         ft1 <- foreach::foreach(i = 1:NCOL(Mat1), .combine = 'cbind') %dopar% {
-            fft(Mat1[, i])[1:(NROW(Mat1) - 1) %/% 2 + 1]
+            fft(Mat1[, i])[ftele1]
         }
         if (Het == FALSE) {
             ft2 <- ft1
         } else {
-            ft2 <- foreach::foreach(i = 1:NCOL(Mat2), .combine = 'cbind') %dopar% {
-                fft(Mat2[, i])[1:(NROW(Mat2) - 1) %/% 2 + 1]
-            }
+          # Selection of fft elements
+          ftele2 <- if(NROW(Mat2) %% 2 == 0) {
+            1:(NROW(Mat2) - 1) %/% 2 + 1
+          } else {
+            1:(NROW(Mat2)) %/% 2 + 1
+          }
+          
+          ft2 <- foreach::foreach(i = 1:NCOL(Mat2), .combine = 'cbind') %dopar% {
+              fft(Mat2[, i])[ftele2]
+          }
         }
         
         FT <- matrix(Norm * parallel::parCapply(cl, ft1, get("%*%"), Conj(ft2)), NCOL(ft1), NCOL(ft2), byrow = TRUE)
         cat(c(format(Sys.time(), "%X -"), "Done\n"))
         
         Obj <- list(FT = FT, Ref1 = Ref1, Ref2 = Ref2,
-                  Wave1 = Wave1, Wave2 = Wave2,
+                  Wave1 = Wave1, Wave2 = Wave2, ft1 = ft1, ft2 = ft2,
                   Time = Time, Het = Het)
         
         parallel::stopCluster(cl)
@@ -266,6 +283,14 @@ summary.corr2d <- function(object, ...)
         cat(c("Perturbation variable:", length(object$Time), "values,", min(object$Time), "-", max(object$Time), "\n"))
     }
     
+}
+
+#' @method print corr2d
+#' @export
+print.corr2d <- function(x, ...)
+{
+    print.default(x, ...)
+  
 }
 
 #' Check for object class "corr2d"

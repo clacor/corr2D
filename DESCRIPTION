@@ -1,8 +1,8 @@
 Package: corr2D
 Type: Package
 Title: Implementation of 2D Correlation Analysis in R
-Version: 0.3.0
-Date: 2018-10-29
+Version: 0.4.0.9002
+Date: 2019-06-28
 Authors@R: c(
     person("Robert", "Geitner", email = "r.geitner@uu.nl", role = c("cre","aut")),
     person("Robby", "Fritzsch", role = "aut"),
@@ -28,9 +28,10 @@ Imports:
     profr,
     xtable
 License: GPL-3
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Encoding: UTF-8
 Suggests: knitr,
     rmarkdown,
-    R.rsp
+    R.rsp,
+    testthat
 VignetteBuilder: R.rsp

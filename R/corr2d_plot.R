@@ -99,7 +99,7 @@
 #'
 #' @export
 #' @importFrom grDevices rgb
-#' @importFrom graphics abline axis box close.screen mtext par plot.default screen split.screen
+#' @importFrom graphics abline axis box close.screen mtext par plot screen split.screen
 #' @importFrom stats quantile
 #' @importFrom utils modifyList
 plot_corr2d <-
@@ -158,6 +158,7 @@ plot_corr2d <-
         }
         
         par_old <- par(no.readonly = TRUE)
+        on.exit(options(par_old), add = TRUE)
         # avoid "invalid screen(1)" error in RStudio --------------------------
         close.screen(all.screens = TRUE)
         graphics::plot.new()
@@ -199,18 +200,16 @@ plot_corr2d <-
             # Spec left -------------------------------------------------------
             screen(1)
             par(xaxt = "n", yaxt = "n", mar = c(0, 0, 0, 0), bty = "n", yaxs = "i")
-            plot.default(x = max(specy[Which2]) - specy[Which2],
-                         y = Obj$Wave2[Which2], col = graphparm$col, 
-                         type = "l", lwd = lwd.spec, ann = FALSE)
+            plot(x = max(specy[Which2]) - specy[Which2], y = Obj$Wave2[Which2], 
+                 col = graphparm$col, type = "l", lwd = lwd.spec, ann = FALSE)
         }
         
         if (!is.null(specx)) {
             # Spec top -------------------------------------------------------
             screen(2)
             par(xaxt = "n", yaxt = "n", mar = c(0, 0, 0, 0), bty = "n", xaxs = "i")
-            plot.default(x = Obj$Wave1[Which1],
-                         y = specx[Which1], col = graphparm$col,
-                         type = "l", lwd = lwd.spec, ann = FALSE)
+            plot(x = Obj$Wave1[Which1], y = specx[Which1],
+                 col = graphparm$col, type = "l", lwd = lwd.spec, ann = FALSE)
         }
         
         # main Part -----------------------------------------------------------
@@ -300,7 +299,6 @@ plot_corr2d <-
         
         screen(3, new = FALSE)
         close.screen(c(1,2,4,5,6,7))
-        on.exit(options(par_old), add = TRUE)
     }
 
 #' 3D plot of two-dimensional correlation spectra.
@@ -381,6 +379,7 @@ plot_corr2din3d <-
         
         # generate x- and y-axis ----------------------------------------------
         par_old <- par(no.readonly = TRUE)
+        on.exit(options(par(par_old)), add = TRUE)
         x <- 1:NROW(Mat)
         y <- 1:NCOL(Mat)
         
@@ -453,11 +452,7 @@ plot_corr2din3d <-
             lines(x = Points.y$x, Points.y$y, lwd = 2)
         }
         
-        on.exit(options(par(par_old)), add = TRUE)
     }
-
-
-
 
 #' @seealso See \code{plot\_corr2d()} for further information.
 #' 

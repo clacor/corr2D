@@ -56,7 +56,8 @@ package.}
 \code{corr2D} returns a list of class "corr2d" containing the complex
     correlation matrix (\code{$FT}), the used reference spectra (\code{$Ref1},
     \code{$Ref2}), the spectral variables (\code{$Wave1}, \code{$Wave2}), the
-    (interpolated) perturbation variables (\code{$Time}) and logical variable (\code{$Het})
+    Fourier transformed data (\code{$ft1}, \code{$ft2}), the (interpolated)
+    perturbation variables (\code{$Time}) and logical variable (\code{$Het})
     indicating if homo (\code{FALSE}) or hetero (\code{TRUE}) correlation was done.
 }
 \description{
