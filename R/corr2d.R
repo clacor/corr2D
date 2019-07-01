@@ -54,7 +54,7 @@
 #'     indicating if homo (\code{FALSE}) or hetero (\code{TRUE}) correlation was done.
 #' 
 #' @references 
-#'     I. Noda (1993) <DOI:10.1366/0003702934067694>\cr
+#'     I. Noda (1992) <DOI:10.1366/0003702934067694>\cr
 #'     I. Noda (2012) <DOI:10.1016/j.vibspec.2012.01.006>
 #'     
 #' 
