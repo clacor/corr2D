@@ -2,7 +2,7 @@ Package: corr2D
 Type: Package
 Title: Implementation of 2D Correlation Analysis in R
 Version: 0.4.0
-Date: 2019-06-28
+Date: 2019-07-01
 Authors@R: c(
     person("Robert", "Geitner", email = "r.geitner@uu.nl", role = c("cre","aut")),
     person("Robby", "Fritzsch", role = "aut"),

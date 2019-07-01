@@ -190,6 +190,7 @@ corr2d <-
         Mat1 <- sweep(Mat1, 2, Ref1, "-")
         if (Het == FALSE) {
             Mat2 <- Mat1
+            Ref2 <- Ref1
         } else {
           if (is.null(Ref2)) {
             Ref2 <- colMeans(Mat2)

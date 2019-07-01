@@ -6,7 +6,6 @@
     method dispatch.
 - Fixed a small error with the calculation of reference spectrum 2 (Ref2) if
     reference spectrum 1 (Ref1) is not present (Thanks to Bettina Gruen).
-- Added
 
 # corr2D 0.3.0
 - Added 2T2D correlation analysis to the package. Function uses the approach
