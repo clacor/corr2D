@@ -78,7 +78,8 @@
 #'     plot).
 #'
 #' @references For interpretation rules see:
-#'     I. Noda (2006) <DOI:10.1016/j.molstruc.2005.12.060>
+#'     I. Noda (2006) <DOI:10.1016/j.molstruc.2005.12.060>\cr
+#'     R. Geitner et al. (2019) <DOI:10.18637/jss.v090.i03>
 #' 
 #' @seealso See \code{\link{plot_corr2din3d}} for 3D plots.
 #'
@@ -328,6 +329,9 @@ plot_corr2d <-
 #'     be plotted a the bottom of the box?
 #' @param ... Additional arguments passed to \code{\link[fields]{drape.plot}}.
 #' 
+#' @references
+#'     R. Geitner et al. (2019) <DOI:10.18637/jss.v090.i03>
+#' 
 #' @seealso See \code{\link{plot_corr2d}} for 2D plots.
 #'     See \code{\link[fields]{drape.plot}} for information on the plot function.
 #' 
@@ -457,6 +461,10 @@ plot_corr2din3d <-
 #' @seealso See \code{plot\_corr2d()} for further information.
 #' 
 #' @method plot corr2d
+#' 
+#' @references
+#'     R. Geitner et al. (2019) <DOI:10.18637/jss.v090.i03>
+#' 
 #' @export
 plot.corr2d <- function(x, ...)
 {

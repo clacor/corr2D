@@ -55,7 +55,8 @@
 #' 
 #' @references 
 #'     I. Noda (1993) <DOI:10.1366/0003702934067694>\cr
-#'     I. Noda (2012) <DOI:10.1016/j.vibspec.2012.01.006>
+#'     I. Noda (2012) <DOI:10.1016/j.vibspec.2012.01.006>\cr
+#'     R. Geitner et al. (2019) <DOI:10.18637/jss.v090.i03>
 #'     
 #' 
 #' @seealso For plotting of the resulting list containing the 2D correlation
@@ -312,6 +313,9 @@ print.corr2d <- function(x, ...)
 #'     is.corr2d(twod) 
 #'     # FALSE
 #'     is.corr2d(2) 
+#'
+#' @references
+#'     R. Geitner et al. (2019) <DOI:10.18637/jss.v090.i03>
 #'
 #' @export
 is.corr2d <- function(x)

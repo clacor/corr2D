@@ -28,3 +28,6 @@ The function uses the \code{\link{inherits}} function.
     is.corr2d(2) 
 
 }
+\references{
+R. Geitner et al. (2019) <DOI:10.18637/jss.v090.i03>
+}

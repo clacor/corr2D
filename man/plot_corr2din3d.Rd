@@ -55,6 +55,9 @@ For the synchronous correlation spectrum the real component (\code{Re})
        Col = fields::tim.colors(64))
    
 }
+\references{
+R. Geitner et al. (2019) <DOI:10.18637/jss.v090.i03>
+}
 \seealso{
 See \code{\link{plot_corr2d}} for 2D plots.
     See \code{\link[fields]{drape.plot}} for information on the plot function.

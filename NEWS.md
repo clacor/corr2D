@@ -1,3 +1,8 @@
+# corr2D 1.0.0
+- Added publication in Journal of Statistical Software as preferred
+    citation. The publication is a good start for newcomers to the field of
+    2D correlation spectroscopy (in R)!
+
 # corr2D 0.4.0
 - Added internal 'testthat' tests to corr2D to easier check correlation results
     during package development.

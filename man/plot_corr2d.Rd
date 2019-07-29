@@ -128,7 +128,8 @@ For the synchronous correlation spectrum the real component (\code{Re})
 }
 \references{
 For interpretation rules see:
-    I. Noda (2006) <DOI:10.1016/j.molstruc.2005.12.060>
+    I. Noda (2006) <DOI:10.1016/j.molstruc.2005.12.060>\cr
+    R. Geitner et al. (2019) <DOI:10.18637/jss.v090.i03>
 }
 \seealso{
 See \code{\link{plot_corr2din3d}} for 3D plots.
