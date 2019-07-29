@@ -1,6 +1,6 @@
 ## Test environments
 * local Windows 10 Enterprise install, R 3.6.1
-* win-builder (R 3.5.3, R 3.6.1 and devel)
+* win-builder (R 3.5.3, R 3.6.1)
 * ubuntu 16.04 (on travis-ci), R 3.5.3, R 3.6.1 and devel
 
 ## R CMD check results
