@@ -1,11 +1,2 @@
-^NEWS\.md$
-^README\.md$
-^README\.Rmd$
-^README-.*\.png$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^NEWS\.html$
-^cran-comments\.html$
-^cran-comments\.md$
-^\.travis\.yml$
-
