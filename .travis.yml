@@ -8,12 +8,9 @@ os:
  - linux
  
 r:
- - oldrel
  - release
  - devel
 
 before_install:
   - sudo apt-get install libx11-dev mesa-common-dev libglu1-mesa-dev
-
-r_github_packages: cran/rgl
 
