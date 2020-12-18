@@ -4,7 +4,9 @@
 * ubuntu 16.04 (on travis-ci), R 4.0.3 and devel
 
 ## R CMD check results
-There were no ERRORs, WARNINGs or NOTEs.
+There were no ERRORs or WARNINGs.
+Win-builder produced 1 NOTE:
+The Maintainer switched universities and thus also his e-mail address changed.
 
 ## Downstream dependencies
 There are currently no downstream dependencies for corr2D.

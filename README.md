@@ -3,7 +3,7 @@
 Purpose of corr2D
 =================
 
-[![CRAN version](http://www.r-pkg.org/badges/version/corr2D)](http://cran.r-project.org/package=corr2D) ![cranlogs](http://cranlogs.r-pkg.org./badges/corr2D) [![Build Status](https://travis-ci.com/clacor/corr2D.svg?branch=master)](https://travis-ci.com/clacor/corr2D)
+[![CRAN version](http://www.r-pkg.org/badges/version/corr2D)](https://cran.r-project.org/package=corr2D) ![cranlogs](http://cranlogs.r-pkg.org./badges/corr2D) [![Build Status](https://travis-ci.com/clacor/corr2D.svg?branch=master)](https://travis-ci.com/clacor/corr2D)
 
 The package corr2D implements two-dimensional (2D) correlation analysis in R. It allows the user to calculate and plot homo as well as hetero 2D correlation spectra from an input matrix containing the (preprocessed) spectra. The user can freely choose the reference spectrum used to create the dynamic spectra, how the perturbation variables vector should be handled, if and how the resulting 2D spectra should be scaled and how many cores should be used to calculate the correlation matrix.
 The plot functions offer a wide variety of options to customize the look of 2D spectra. In this context the appearance of the main spectrum can be altered and the 1D reference spectra as well as the color legend can be controlled.
