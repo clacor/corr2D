@@ -4,10 +4,19 @@
 \alias{plot_corr2din3d}
 \title{3D plot of two-dimensional correlation spectra.}
 \usage{
-plot_corr2din3d(Mat, specx = NULL, specy = NULL, scalex = NULL,
-  scaley = NULL, Col = colorspace::diverge_hcl(64, h = c(240, 0), c =
-  100, l = c(20, 100), power = 0.4), reduce = NULL, zlim = NULL,
-  projection = FALSE, ...)
+plot_corr2din3d(
+  Mat,
+  specx = NULL,
+  specy = NULL,
+  scalex = NULL,
+  scaley = NULL,
+  Col = colorspace::diverge_hcl(64, h = c(240, 0), c = 100, l = c(20, 100), power =
+    0.4),
+  reduce = NULL,
+  zlim = NULL,
+  projection = FALSE,
+  ...
+)
 }
 \arguments{
 \item{Mat}{Real numeric matrix containing the z-values to plot.}

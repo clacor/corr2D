@@ -4,10 +4,18 @@
 \alias{codis2d}
 \title{Two-dimensional codistribution spectroscopy.}
 \usage{
-codis2d(Mat, Ref = NULL, Wave = NULL, Time = NULL,
-  Int = stats::splinefun, N = 2^ceiling(log2(NROW(Mat))),
-  Norm = 1/(NROW(Mat) - 1), scaling = 0,
-  corenumber = parallel::detectCores(), preview = FALSE)
+codis2d(
+  Mat,
+  Ref = NULL,
+  Wave = NULL,
+  Time = NULL,
+  Int = stats::splinefun,
+  N = 2^ceiling(log2(NROW(Mat))),
+  Norm = 1/(NROW(Mat) - 1),
+  scaling = 0,
+  corenumber = parallel::detectCores(),
+  preview = FALSE
+)
 }
 \arguments{
 \item{Mat}{Numeric matrix containing the data which will be correlated;

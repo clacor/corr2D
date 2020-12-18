@@ -4,7 +4,9 @@
 \name{FuranMale}
 \alias{FuranMale}
 \title{FT-Raman spectra of furan maleimide based self-healing polymer}
-\format{A matrix containing 6 spectra by rows with 145 wavenumbers by columns.}
+\format{
+A matrix containing 6 spectra by rows with 145 wavenumbers by columns.
+}
 \source{
 R. Geitner, J. Koetteritzsch, M. Siegmann, T. Bocklitz, M. Hager,
     U. S. Schubert, S. Graefe, B. Dietzek, M. Schmitt and J. Popp

@@ -1,3 +1,8 @@
+# corr2D 1.0.1
+- Moved package rgl to Suggests as the future of OpenGL is uncertain. rgl is
+    used as an optional preview in corr2d and is thus not essential to the
+    package.
+
 # corr2D 1.0.0
 - Added publication in Journal of Statistical Software as preferred
     citation. The publication is a good start for newcomers to the field of

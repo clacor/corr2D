@@ -4,10 +4,21 @@
 \alias{corr2d}
 \title{Two-dimensional correlation analysis.}
 \usage{
-corr2d(Mat1, Mat2 = NULL, Ref1 = NULL, Ref2 = NULL, Wave1 = NULL,
-  Wave2 = NULL, Time = NULL, Int = stats::splinefun,
-  N = 2^ceiling(log2(NROW(Mat1))), Norm = 1/(pi * (NROW(Mat1) - 1)),
-  scaling = 0, corenumber = parallel::detectCores(), preview = FALSE)
+corr2d(
+  Mat1,
+  Mat2 = NULL,
+  Ref1 = NULL,
+  Ref2 = NULL,
+  Wave1 = NULL,
+  Wave2 = NULL,
+  Time = NULL,
+  Int = stats::splinefun,
+  N = 2^ceiling(log2(NROW(Mat1))),
+  Norm = 1/(pi * (NROW(Mat1) - 1)),
+  scaling = 0,
+  corenumber = parallel::detectCores(),
+  preview = FALSE
+)
 }
 \arguments{
 \item{Mat1, Mat2}{Numeric matrix containing the data which will be correlated;

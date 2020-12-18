@@ -4,9 +4,19 @@
 \alias{sim2ddata}
 \title{Simulate kinetic data from two-step sequential first-order reactions}
 \usage{
-sim2ddata(L = 400, t = 0:10, k1 = 0.2, k2 = 0.8, X = c(1000,
-  1400), A = c(1080, 1320), Aamp = c(3, 8), B = c(1120, 1280),
-  Bamp = c(5, 15), C = c(1160, 1240), Camp = c(4, 9))
+sim2ddata(
+  L = 400,
+  t = 0:10,
+  k1 = 0.2,
+  k2 = 0.8,
+  X = c(1000, 1400),
+  A = c(1080, 1320),
+  Aamp = c(3, 8),
+  B = c(1120, 1280),
+  Bamp = c(5, 15),
+  C = c(1160, 1240),
+  Camp = c(4, 9)
+)
 }
 \arguments{
 \item{L}{Positive, non-zero integer specifying how many spectral variables
