@@ -14,3 +14,9 @@ r:
 
 install:
   - sudo apt-get install libx11-dev mesa-common-dev libglu1-mesa-dev
+
+r_packages:
+  - R.rsp
+
+r_github_packages:
+  - cran/rgl
