@@ -7,6 +7,7 @@
 There were no ERRORs or WARNINGs.
 Win-builder produced 1 NOTE:
 The Maintainer switched universities and thus also his e-mail address changed.
+The DOIs in the package are correct as they are no URLs.
 
 ## Downstream dependencies
 There are currently no downstream dependencies for corr2D.
