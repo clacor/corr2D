@@ -19,7 +19,7 @@
 
 # corr2D 0.3.0
 - Added 2T2D correlation analysis to the package. Function uses the approach
-    described by I. Noda (2018) <DOI:10.1016/j.molstruc.2018.01.091>.
+    described by I. Noda (2018) <DOI:doi.org/10.1016/j.molstruc.2018.01.091>.
 - A freshly published paper at The Journal of Statistical Software was added
     as a vignette. This will be updated in the future to also include
     descriptions of new functions.
@@ -29,7 +29,7 @@
 # corr2D 0.2.0
 - Added 2D codistibution analysis to the packages functions. Function uses
     the approach described by I. Noda (2014)
-    <DOI:10.1016/j.molstruc.2014.01.024>.
+    <DOI:doi.org/10.1016/j.molstruc.2014.01.024>.
 - Rewrote the function plot_corr2d() for better control about the plot
     appearence. Introduced the graphical parameters "lwd", "lwd.axis",
     "lwd.spec", "col", "col.axis", "col.lab", "cex.axis", "cex.lab", "cex.leg",

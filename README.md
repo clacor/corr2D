@@ -39,4 +39,4 @@ plot_corr2d(twod, xlab = expression(paste("relative Wavenumber" / cm^-1)),
 
 ![](README-unnamed-chunk-4-1.png)
 
-For an in-depth tutorial as well as a detailed description of the code see R. Geitner et al. (2019) <DOI:10.18637/jss.v090.i03>.
+For an in-depth tutorial as well as a detailed description of the code see R. Geitner et al. (2019) <DOI:doi.org/10.18637/jss.v090.i03>.
