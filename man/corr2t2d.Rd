@@ -53,6 +53,6 @@ I. Noda (2018) <DOI:10.1016/j.molstruc.2018.01.091>
 }
 \seealso{
 For plotting of the resulting list containing the 2D correlation
-    spectra or correaltion coefficient see \code{\link{plot_corr2d}} and
+    spectra or correlation coefficient see \code{\link{plot_corr2d}} and
     \code{\link{plot_corr2din3d}}.
 }

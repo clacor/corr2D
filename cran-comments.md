@@ -1,6 +1,6 @@
 ## Test environments
 * local Windows 10 Home install, R 4.2.1
-* win-builder (R3.6.14.1.3, R 4.2.1 and devel)
+* win-builder (R 4.1.3, R 4.2.1 and devel)
 * macOS-builder (macOS 11.5.2 (20G95)) (R 4.2.1)
 
 ## R CMD check results

@@ -22,13 +22,13 @@
 #'     \code{colMeans()} of \code{Mat} is used as reference. The length of
 #'     \code{Ref} needs to be equal to the number of columns in \code{Mat}.
 #'     2D codistribution spectroscopy is only strictly defined using the
-#'     perturbation-mean spectrum as refernece spectrum. Thus, any deviation
+#'     perturbation-mean spectrum as reference spectrum. Thus, any deviation
 #'     from this definition can lead to unexpected results.
 #' @param Wave Numeric vector containing the spectral variable. Needs to be
 #'     specified if column names of \code{Mat} are undefined.
 #' @param Time Numeric vector containing the perturbation variables. If
 #'     specified, \code{Mat} will be interpolated to \code{N} equally spaced
-#'     perturbation varibales using \code{Int}.
+#'     perturbation variables using \code{Int}.
 #' @param Int Function specifying how the dataset will be interpolated to give
 #'     \code{N} equally spaced perturbation variables. \code{\link[stats]{splinefun}}
 #'     (default) or \code{\link[stats]{approxfun}} can for example be used.

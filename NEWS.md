@@ -33,15 +33,15 @@
     Software.
 
 # corr2D 0.2.0
-- Added 2D codistibution analysis to the packages functions. Function uses
+- Added 2D codistribution analysis to the packages functions. Function uses
     the approach described by I. Noda (2014)
     <DOI: https://doi.org/10.1016/j.molstruc.2014.01.024>.
 - Rewrote the function plot_corr2d() for better control about the plot
-    appearence. Introduced the graphical parameters "lwd", "lwd.axis",
+    appearance. Introduced the graphical parameters "lwd", "lwd.axis",
     "lwd.spec", "col", "col.axis", "col.lab", "cex.axis", "cex.lab", "cex.leg",
     "font.axis" and "font.lab" which are/are derived from "par".
     "at.xaxs"/"at.yaxs" and "label.xaxs"/"label.yaxs" allow control over the
-    axes ticks and thier labels. "line.xlab"/"line.ylab" control the position
+    axes ticks and their labels. "line.xlab"/"line.ylab" control the position
     of the axes label.
 
 # corr2D 0.1.12
@@ -59,7 +59,7 @@
 - Corrected the default value for the normalization factor. It's now the number
     of perturbation variables which is NROW() of Mat1.
 - Added error massages to all functions.
-- Reworte the function sim2ddata() to allow to set C and Camp NULL. In that
+- Rewrote the function sim2ddata() to allow to set C and Camp NULL. In that
     case only the first order reaction A -> B will be simulated and sampled.
 
 # corr2D 0.1.10

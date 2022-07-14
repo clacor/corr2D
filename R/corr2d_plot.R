@@ -70,7 +70,7 @@
 #'     \code{\link[graphics]{image}} or \code{\link[graphics]{contour}}. Can
 #'     include graphics parameters \code{\link[graphics]{par}} which are in
 #'     part also used by other functions. This includes \code{cex.axis}
-#'     (influences axes and thier label magnification), \code{cex.lab}
+#'     (influences axes and their label magnification), \code{cex.lab}
 #'     (influences label magnification), \code{col.axis} (influences axes
 #'     label color), \code{col.lab} (influences label color),
 #'     \code{font.axis} (influences axes label font), \code{font.lab}
