@@ -1,0 +1,5 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+README.Rmd
+README-unnamed-chunk-4-1.png
+cran-comments.md
