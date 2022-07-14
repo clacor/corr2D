@@ -1,0 +1,21 @@
+bibentry(bibtype = "Article",
+  title        = "{corr2D}: Implementation of Two-Dimensional Correlation Analysis in {R}",
+  author       = c(person(given = "Robert",
+                          family = "Geitner"),
+                   person(given = "Robby",
+                          family = "Fritzsch"),
+                   person(given = "J\\\"urgen",
+                          family = "Popp"),
+                   person(given = c("Thomas", "W."),
+                          family = "Bocklitz",
+                          email = "thomas.bocklitz@uni-jena.de")),
+  journal      = "Journal of Statistical Software",
+  year         = "2019",
+  volume       = "90",
+  number       = "3",
+  pages        = "1--33",
+  doi          = "10.18637/jss.v090.i03",
+
+  header       = "To cite corr2D in publications use:"
+)
+
